@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameInput : MonoBehaviour
 {
     private OVRInput.Controller controller = OVRInput.Controller.None;
+    public float moveSpeed = 3f; // Speed of player movement
 
     private void Start()
     {
@@ -40,5 +41,13 @@ public class GameInput : MonoBehaviour
             // Implement rewind functionality here
             Debug.Log("Rewind button pressed");
         }
+        // Get thumbstick input from left controller
+        Vector2 thumbstickInputLeft = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);
+
+        // Calculate movement direction based on thumbstick input
+        Vector3 moveDirection = new Vector3(thumbstickInputLeft.x, 0f, thumbstickInputLeft.y).normalized;
+
+        // Move the player in the calculated direction
+        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
     }
 }
