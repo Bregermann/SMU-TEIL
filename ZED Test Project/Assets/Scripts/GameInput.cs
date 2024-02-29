@@ -1,3 +1,4 @@
+using Assets.OVR.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ public class GameInput : MonoBehaviour
 {
     private OVRInput.Controller controller = OVRInput.Controller.None;
     public float moveSpeed = 3f; // Speed of player movement
-
+  
     private void Start()
     {
         // Determine which controller is connected
@@ -35,12 +36,6 @@ public class GameInput : MonoBehaviour
             }
         }
 
-        // Check for input on X button to rewind
-        if (OVRInput.GetDown(OVRInput.Button.Three, controller))
-        {
-            // Implement rewind functionality here
-            Debug.Log("Rewind button pressed");
-        }
         // Get thumbstick input from left controller
         Vector2 thumbstickInputLeft = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);
 
