@@ -3,32 +3,32 @@ using UnityEngine.XR;
 
 public class MatchMultipleTransformsToggle : MonoBehaviour
 {
-    public string targetTag = "TargetObject";
+    public string targetTag = "head";
     private bool isMatching = false;
     private int currentIndex = 0;
     private Transform[] targetObjects;
+    public Camera camCam;
+    public Transform currentTarget;
 
     void Start()
     {
-        // Find all game objects with the specified tag and store their transforms
-        GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(targetTag);
-        targetObjects = new Transform[objectsWithTag.Length];
-        for (int i = 0; i < objectsWithTag.Length; i++)
-        {
-            targetObjects[i] = objectsWithTag[i].transform;
-        }
+        Camera.main.transform.SetParent(camCam.transform);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (targetObjects.Length == 0)
+        /*      if (targetObjects.Length == 0)
+              {
+                  Debug.LogWarning("No target objects found with tag: " + targetTag);
+                  return;
+              }
+        */
+        if (Input.GetKeyDown(KeyCode.S)) 
         {
-            Debug.LogWarning("No target objects found with tag: " + targetTag);
-            return;
+            LookForHead();
         }
-
-        if (OVRInput.Get(OVRInput.Button.One))
+        if (OVRInput.Get(OVRInput.Button.One) || Input.GetKey(KeyCode.A))
         {
             isMatching = !isMatching;
             if (isMatching)
@@ -38,15 +38,25 @@ public class MatchMultipleTransformsToggle : MonoBehaviour
                 {
                     currentIndex = 0;
                 }
-                MatchTransform();
             }
         }
+        MatchTransform();
     }
     void MatchTransform()
     {
         // Match the position and rotation of the current target object
-        Transform currentTarget = targetObjects[currentIndex];
         transform.position = currentTarget.position;
         transform.rotation = currentTarget.rotation;
+    }
+    void LookForHead()
+    {
+        // Find all game objects with the specified tag and store their transforms
+        GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(targetTag);
+        targetObjects = new Transform[objectsWithTag.Length];
+        for (int i = 0; i < objectsWithTag.Length; i++)
+        {
+            targetObjects[i] = objectsWithTag[i].transform;
+        }
+        currentTarget = targetObjects[currentIndex];
     }
 }
