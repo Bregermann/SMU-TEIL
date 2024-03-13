@@ -40,7 +40,10 @@ public class MatchMultipleTransformsToggle : MonoBehaviour
                 }
             }
         }
-        MatchTransform();
+        if(currentTarget != null)
+        {
+            MatchTransform();
+        }
     }
     void MatchTransform()
     {
