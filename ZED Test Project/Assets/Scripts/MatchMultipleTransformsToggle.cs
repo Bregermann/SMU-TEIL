@@ -24,7 +24,7 @@ public class MatchMultipleTransformsToggle : MonoBehaviour
                   return;
               }
         */
-        if (Input.GetKeyDown(KeyCode.S)) 
+        if (OVRInput.Get(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.S)) 
         {
             LookForHead();
         }
