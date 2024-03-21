@@ -12,17 +12,7 @@ public class AnimationRecorder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Find the GameObject with the specified tag
-        GameObject modelObject = GameObject.FindGameObjectWithTag(modelTag);
-        if (modelObject != null)
-        {
-            // Get the Animator component attached to the model
-            animator = modelObject.GetComponent<Animator>();
-        }
-        else
-        {
-            Debug.LogError("No GameObject found with tag: " + modelTag);
-        }
+
     }
 
     // Update is called once per frame
@@ -35,7 +25,20 @@ public class AnimationRecorder : MonoBehaviour
             RecordAnimation();
         }
     }
-
+    public void FindAvatar()
+    {
+        // Find the GameObject with the specified tag
+        GameObject modelObject = GameObject.FindGameObjectWithTag(modelTag);
+        if (modelObject != null)
+        {
+            // Get the Animator component attached to the model
+            animator = modelObject.GetComponent<Animator>();
+        }
+        else
+        {
+            Debug.LogError("No GameObject found with tag: " + modelTag);
+        }
+    }
     // Method to start recording animation
     public void StartRecording()
     {

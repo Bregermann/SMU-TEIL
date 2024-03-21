@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ???
+  m_text: Stop Animation
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1339,7 +1339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelTag: RecordMe
-  recordingDuration: 5
+  animator: {fileID: 0}
 --- !u!1 &755437029
 GameObject:
   m_ObjectHideFlags: 0
@@ -2739,7 +2739,7 @@ GameObject:
   - component: {fileID: 1321503428}
   - component: {fileID: 1321503427}
   m_Layer: 5
-  m_Name: ???
+  m_Name: Stop Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2811,7 +2811,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 722465883}
         m_TargetAssemblyTypeName: AnimationRecorder, Assembly-CSharp
-        m_MethodName: RecordAnimation
+        m_MethodName: StopRecording
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3639,7 +3639,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 722465883}
         m_TargetAssemblyTypeName: AnimationRecorder, Assembly-CSharp
-        m_MethodName: RecordAnimation
+        m_MethodName: StartRecording
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
