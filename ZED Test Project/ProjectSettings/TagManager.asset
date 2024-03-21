@@ -8,6 +8,7 @@ TagManager:
   - FxTemporaire
   - zomBunny
   - head
+  - RecordMe
   layers:
   - Default
   - TransparentFX
