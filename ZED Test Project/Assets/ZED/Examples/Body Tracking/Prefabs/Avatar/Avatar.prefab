@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5426183247929936473}
   - component: {fileID: 4112894273537710099}
   - component: {fileID: -8396119709115433225}
+  - component: {fileID: 228428629911615845}
   m_Layer: 16
   m_Name: Avatar
   m_TagString: Untagged
@@ -97,6 +98,29 @@ MonoBehaviour:
   ankleHeightOffset: 0.102
   resetAutomaticOffset: 114
   canSpawn: 0
+--- !u!114 &228428629911615845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426183247939467289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d61879c2b6b4edcabca7e5b99f7d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  savePath: Assets/RecordedAnimations/
+  fileName: Avatar-Animation
+  startRecordKey: 113
+  stopRecordKey: 119
+  showLogGUI: 0
+  recordLimitedFrames: 0
+  recordFrames: 1000
+  changeTimeScale: 0
+  timeScaleOnStart: 0
+  timeScaleOnRecord: 1
+  recordBlendShape: 0
 --- !u!1 &5426183247939467297
 GameObject:
   m_ObjectHideFlags: 0

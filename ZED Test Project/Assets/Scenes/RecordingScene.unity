@@ -1290,6 +1290,8 @@ GameObject:
   - component: {fileID: 722465882}
   - component: {fileID: 722465883}
   - component: {fileID: 722465884}
+  - component: {fileID: 722465885}
+  - component: {fileID: 722465886}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1348,11 +1350,39 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722465880}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62f36c5b312b2c14f9d1b4813f8eb177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &722465885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722465880}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b8da6b55b949748a128ed13abfdf43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveFileName: sceneData.json
+  startRecordingKey: 114
+  stopRecordingKey: 115
+--- !u!114 &722465886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722465880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39842d014bddaa14783fabf7412e05b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recordInterval: 0.1
 --- !u!1 &755437029
 GameObject:
   m_ObjectHideFlags: 0
