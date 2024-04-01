@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4112894273537710099}
   - component: {fileID: -8396119709115433225}
   - component: {fileID: 228428629911615845}
+  - component: {fileID: -7904694750266493403}
   m_Layer: 16
   m_Name: Avatar
   m_TagString: Untagged
@@ -121,6 +122,22 @@ MonoBehaviour:
   timeScaleOnStart: 0
   timeScaleOnRecord: 1
   recordBlendShape: 0
+--- !u!114 &-7904694750266493403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426183247939467289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63952f2c045e9a6478744addbe18b516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameForRecording: Character
+  framerateToRecordAt: 30
+  recorder: {fileID: 11400000, guid: 65281f14811d4a348be1c76ade4498f0, type: 2}
+  minimumDelta: 0.0001
 --- !u!1 &5426183247939467297
 GameObject:
   m_ObjectHideFlags: 0
