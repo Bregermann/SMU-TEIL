@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public ZEDManager zedManager;
     public ZEDBodyTrackingManager bodyTrackingManager;
     public GameObject uiButtons;
+    public GameObject threeDObjectVisualizer;
     // Start is called before the first frame update
     void Start()
     {
@@ -62,11 +63,13 @@ public class GameManager : MonoBehaviour
     }
     public void StartObjectDetection()
     {
-        zedManager.StartObjectDetection(); ;
+        zedManager.StartObjectDetection(); 
+        threeDObjectVisualizer.SetActive(true);
     }
     public void StopObjectDetection()
     {
         zedManager.StopObjectDetection();
+        threeDObjectVisualizer.SetActive(false);
     }
     public void ToggleUI()
     {
