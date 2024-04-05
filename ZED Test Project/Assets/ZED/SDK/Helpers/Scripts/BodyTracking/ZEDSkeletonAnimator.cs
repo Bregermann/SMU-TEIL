@@ -65,12 +65,205 @@ public class ZEDSkeletonAnimator : MonoBehaviour
     #endregion
 
 
+    /// --------------------------------------------
+    /// ------------MonoBehaviour methods-----------
+    /// --------------------------------------------
+    #region MonoBehaviour Methods
+
+    private void Awake()
+    {
+        bodyTrackingManager = FindObjectOfType<ZEDBodyTrackingManager>();
+        if (bodyTrackingManager == null)
+        {
+            Debug.LogError("ZEDManagerIK: No body tracking manager loaded!");
+        }
+        heightOffsetter = GetComponent<HeightOffsetter>();
+    }
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        // reset automatic height offset calibration
+        if (Input.GetKeyDown(resetAutomaticOffset))
+        {
+            heightOffsetter.CurrentheightOffset = 0;
+        }
+    }
+
+    #endregion
+
+    /// --------------------------------------------
+    /// -----------------Foot IK--------------------
+    /// --------------------------------------------
+    #region Foot IK
+
+    private Vector3 curIKTargetPosL = Vector3.zero;
+    private Vector3 curIKTargetPosR = Vector3.zero;
+    private Quaternion curIKTargetRotL = Quaternion.identity;
+    private Quaternion curIKTargetRotR = Quaternion.identity;
+    private Vector3 targetFootLockL = Vector3.zero;
+    private Vector3 targetFootLockR = Vector3.zero;
+    /// <summary>
+    /// Checks the foot locking state if the feature is enabled and returns the point on ground to use as effector for the IK.
+    /// </summary>
+    /// <param name="footLock">Foot locking state for this foot.</param>
+    /// <param name="hitPoint">Hit position of the ray from the foot.</param>
+    /// <param name="prevIKTargetPos">IK target on the previous frame. Should be replaced with the output of this function.</param>
+    /// <param name="grounded">If the foot is close enough to the ground to have full ik application.</param>
+    /// <param name="targetFootLock">Updated only if foot is unlocked. Target to lerp toward.</param>
+    /// <returns>The effector target position</returns>
+    private Vector3 FindIKTargetPosition(bool footLock, Vector3 hitPoint, Vector3 prevIKTargetPos, bool grounded, ref Vector3 targetFootLock)
+    {
+        float flsmooth = Mathf.Clamp(1 - bodyTrackingManager.footLockingSmoothingValue, 0, 1);
+        if (bodyTrackingManager.EnableFootLocking)
+        {
+            if (footLock && grounded)
+            {
+                return Vector3.Lerp(prevIKTargetPos,
+                    new Vector3(targetFootLock.x, hitPoint.y + ankleHeightOffset, targetFootLock.z),
+                    flsmooth);
+            }
+            else
+            {
+                targetFootLock = hitPoint + new Vector3(0, ankleHeightOffset, 0);
+                return Vector3.Lerp(
+                prevIKTargetPos,
+                hitPoint + new Vector3(0, ankleHeightOffset, 0),
+                flsmooth);
+            }
+        }
+        else
+        {
+            return Vector3.Lerp(
+            prevIKTargetPos,
+            hitPoint + new Vector3(0, ankleHeightOffset, 0),
+            flsmooth);
+        }
+    }
+
+    /// <summary>
+    /// Returns the target rotation for the IK. The goal it to have the foot flat depending on the normal found by the raycast.
+    /// </summary>
+    /// <param name="hitNormal">Normal at raycast hit.</param>
+    /// <param name="toePos">Toes position. Used to correctly orient the foot following its forward direction.</param>
+    /// <param name="anklePos">Ankle position. Used to correctly orient the foot following its forward direction.</param>
+    /// <returns></returns>
+    private Quaternion FindIKTargetRotation(Vector3 hitNormal, Vector3 toePos, Vector3 anklePos, Quaternion rootOrientation, Quaternion curFootRotation)
+    {
+        Vector3 forward = Vector3.ProjectOnPlane(rootOrientation * (toePos - anklePos), Vector3.up);
+        return Quaternion.Slerp(curFootRotation, Quaternion.LookRotation(forward, hitNormal), Mathf.Clamp(1 - bodyTrackingManager.footLockingSmoothingValue, 0, 1));
+    }
+
+    private Vector3 FindIKHintPosition(HumanBodyBones kneeBone)
+    {
+        Transform kneeT = animator.GetBoneTransform(kneeBone);
+        Vector3 hintPos = kneeT.position + 0.4f * kneeT.forward;
+        hintPos = animator.bodyRotation * hintPos;
+        hintPos += animator.bodyPosition;
+        return hintPos;
+    }
+
+    #endregion
+
+    /// --------------------------------------------
+    /// -----------------Foot Locking---------------
+    /// --------------------------------------------
+    #region Foot Locking
+
+    /// <summary>
+    /// Check if the SDK ankle keypoints have moved far enough from their previous position (on the horizontal plane).
+    /// If not, it'll be considered jittering, and should be taken into account in the foot IK.
+    /// This method should be called when the ZEDBodyTrackingManager updates the handler, as it only relies on the SDK positions.
+    /// </summary>
+    /// <param name="newPosAnkleL"></param>
+    /// <param name="newPosAnkleR"></param>
+    public void CheckFootLock(Vector3 newPosAnkleL, Vector3 newPosAnkleR)
+    {
+        lockFootL = HorizontalDist(curPosAnkleL, newPosAnkleL) < thresholdFootLock;
+        lockFootR = HorizontalDist(curPosAnkleR, newPosAnkleR) < thresholdFootLock;
+        if (!lockFootL) curPosAnkleL = newPosAnkleL;
+        if (!lockFootR) curPosAnkleR = newPosAnkleR;
+    }
+
+    #endregion
+
+    /// --------------------------------------------
+    /// -----------------Utility Methods------------
+    /// --------------------------------------------
+    #region Utility methods
+
+    /// <summary>
+    /// Computes and returns distance between the projections of <paramref name="vec1"/> and <paramref name="vec2"/> on an horizontal plane
+    /// </summary>
+    private float HorizontalDist(Vector3 vec1, Vector3 vec2)
+    {
+        return Vector2.Distance(new Vector2(vec1.x, vec1.z), new Vector2(vec2.x, vec2.z));
+    }
+
+    /// <summary>
+    /// Gets a linear interpolation of the application ratio for the IK depending on the distance to the floor.
+    /// Used for smoothing the transition between grounded and not.
+    /// </summary>
+    /// <param name="d">Distance between sole and floor (not ankle and floor).</param>
+    /// <param name="tMin">Threshold min: Distance above this value implies no application of IK.</param>
+    /// <param name="tMax">Threshold max: Distance under this value implies full (depending on setting) application of IK.</param>
+    /// <param name="rMax">Max ratio (default 1).</param>
+    /// <returns>Ratio of IK application between 0 and rmax, depending on d, tmin and tmax./returns>
+    private float GetLinearIKRatio(float d, float tMin, float tMax, float rMax = 1)
+    {
+        float ikr = Mathf.Min(1, Mathf.Max(0, rMax * (tMin - d) / (tMin - tMax)));
+        return ikr;
+    }
+
+    /// <summary>
+    /// Get position of bone after application of bodyPosition and bodyRotation.
+    /// </summary>
+    /// <param name="bone"></param>
+    private Vector3 GetWorldPosCurrentState(HumanBodyBones bone)
+    {
+        Vector3 ret = animator.GetBoneTransform(bone).position;
+        ret = animator.bodyPosition + (animator.bodyRotation * ret);
+        return ret;
+    }
+
+    /// <summary>
+    /// Utility function to compute and apply the height offset from the height offset manager to the body.
+    /// </summary>
+    private void ManageHeightOffset(Vector3 posAnkleL, Vector3 posAnkleR, Vector3 hitPointL, Vector3 hitPointR)
+    {
+        rootHeightOffset = heightOffsetter.ComputeRootHeightOffsetFromRaycastInfo(posAnkleL, posAnkleR, hitPointL, hitPointR, ankleHeightOffset);
+        if (animator != null)
+        {
+            animator.bodyPosition += rootHeightOffset;
+        }
+        else { transform.position = Skhandler.TargetBodyPositionWithHipOffset + rootHeightOffset; }
+    }
+
+    #endregion
+
+
+    /// --------------------------------------------
+    /// -----------------Main Pipeline--------------
+    /// --------------------------------------------
+    #region Main Pipeline
+
     /// <summary>
     /// Applies the current local rotations of the rig to the animator.
     /// </summary>
     void ApplyAllRigRotationsOnAnimator()
     {
-        skhandler.MoveAnimator(bodyTrackingManager.EnableSmoothing, 1 - Mathf.Clamp(bodyTrackingManager.smoothingValue, 0, 0.99f));
+        if(bodyTrackingManager.bodyMode == ZEDBodyTrackingManager.BODY_MODE.FULL_BODY)
+        {
+            skhandler.MoveAnimator(bodyTrackingManager.EnableSmoothing, 1 - Mathf.Clamp(bodyTrackingManager.smoothingValue, 0, 0.99f));
+        } 
+        else if(bodyTrackingManager.bodyMode == ZEDBodyTrackingManager.BODY_MODE.UPPER_BODY)
+        {
+            skhandler.MoveAnimatorUpperBody(bodyTrackingManager.EnableSmoothing, Mathf.Clamp(1 - bodyTrackingManager.smoothingValue, 0, 1));
+        }
     }
 
     /// <summary>
@@ -78,7 +271,7 @@ public class ZEDSkeletonAnimator : MonoBehaviour
     /// If the ray does not hit, the hitPoint are set to the position of the feet and the hitNormal to Vector3.up.
     /// </summary>
     private void RaycastManagementAnimator(
-        out bool hitSuccessfulL, out bool hitSuccessfulR, 
+        out bool hitSuccessfulL, out bool hitSuccessfulR,
         out Vector3 hitPointL, out Vector3 hitPointR,
         out Vector3 hitNormalL, out Vector3 hitNormalR,
         Vector3 ankleLastFramePosL, Vector3 ankleLastFramePosR)
@@ -93,7 +286,7 @@ public class ZEDSkeletonAnimator : MonoBehaviour
         // Shoot a ray from 5m above the foot towards 5m under the foot
         Ray rayL = new Ray(postStartRayL + (Vector3.up * 5), Vector3.down);
         hitSuccessfulL = Physics.Raycast(rayL, out RaycastHit hitL, 10, raycastDetectionLayers);
-        if(hitSuccessfulL) { hitPointL = hitL.point; hitNormalL = hitL.normal; }
+        if (hitSuccessfulL) { hitPointL = hitL.point; hitNormalL = hitL.normal; }
 
         Ray rayR = new Ray(postStartRayR + (Vector3.up * 5), Vector3.down);
         hitSuccessfulR = Physics.Raycast(rayR, out RaycastHit hitR, 10, raycastDetectionLayers);
@@ -113,7 +306,9 @@ public class ZEDSkeletonAnimator : MonoBehaviour
             ApplyAllRigRotationsOnAnimator();
 
             // 2) Set root position/rotation
-            animator.bodyPosition = skhandler.TargetBodyPositionWithHipOffset;
+            animator.bodyPosition = bodyTrackingManager.bodyMode == ZEDBodyTrackingManager.BODY_MODE.FULL_BODY 
+                ? skhandler.TargetBodyPositionWithHipOffset
+                : new Vector3(skhandler.TargetBodyPositionWithHipOffset.x, animator.bodyPosition.y, skhandler.TargetBodyPositionWithHipOffset.z);
             animator.bodyRotation = skhandler.TargetBodyOrientationSmoothed;
 
             // Store raycast info data
@@ -170,7 +365,7 @@ public class ZEDSkeletonAnimator : MonoBehaviour
                 /// ----------------------------------------------------------------
                 /// Right Foot -----------------------------------------------------
                 /// ----------------------------------------------------------------
-                
+
                 animator.SetIKHintPosition(AvatarIKHint.RightKnee, FindIKHintPosition(HumanBodyBones.RightLowerLeg));
                 animator.SetIKHintPositionWeight(AvatarIKHint.RightKnee, ikHintWeight);
 
@@ -215,176 +410,44 @@ public class ZEDSkeletonAnimator : MonoBehaviour
                 animator.SetIKHintPositionWeight(AvatarIKHint.RightKnee, 0);
                 animator.SetIKHintPositionWeight(AvatarIKHint.LeftKnee, 0);
             }
-            
+
         }
-    }
-
-    /// <summary>
-    /// Computes and returns distance between the projections of <paramref name="vec1"/> and <paramref name="vec2"/> on an horizontal plane
-    /// </summary>
-    private float HorizontalDist(Vector3 vec1, Vector3 vec2)
-    {
-        return Vector2.Distance(new Vector2(vec1.x, vec1.z), new Vector2(vec2.x, vec2.z));
-    }
-
-    /// <summary>
-    /// Gets a linear interpolation of the application ratio for the IK depending on the distance to the floor.
-    /// Used for smoothing the transition between grounded and not.
-    /// </summary>
-    /// <param name="d">Distance between sole and floor (not ankle and floor).</param>
-    /// <param name="tMin">Threshold min: Distance above this value implies no application of IK.</param>
-    /// <param name="tMax">Threshold max: Distance under this value implies full (depending on setting) application of IK.</param>
-    /// <param name="rMax">Max ratio (default 1).</param>
-    /// <returns>Ratio of IK application between 0 and rmax, depending on d, tmin and tmax./returns>
-    private float GetLinearIKRatio(float d, float tMin, float tMax, float rMax = 1)
-    {
-        float ikr = Mathf.Min(1, Mathf.Max(0, rMax * (tMin - d) / (tMin - tMax)));
-        return ikr;
-    }
-
-    /// <summary>
-    /// Get position of bone after application of bodyPosition and bodyRotation.
-    /// </summary>
-    /// <param name="bone"></param>
-    private Vector3 GetWorldPosCurrentState(HumanBodyBones bone)
-    {
-        Vector3 ret = animator.GetBoneTransform(bone).position;
-        ret = animator.bodyPosition + (animator.bodyRotation * ret);
-        return ret;
-    }
-
-    /// <summary>
-    /// Utility function to compute and apply the height offset from the height offset manager to the body.
-    /// </summary>
-    private void ManageHeightOffset(Vector3 posAnkleL, Vector3 posAnkleR, Vector3 hitPointL, Vector3 hitPointR)
-    {
-        rootHeightOffset = heightOffsetter.ComputeRootHeightOffsetFromRaycastInfo(posAnkleL, posAnkleR, hitPointL, hitPointR, ankleHeightOffset);
-        if (animator != null) {
-            animator.bodyPosition += rootHeightOffset;
-        }
-        else { transform.position = Skhandler.TargetBodyPositionWithHipOffset + rootHeightOffset; }
-    }
-
-    #region Delayed Spawn
-
-    [HideInInspector]
-    public bool canSpawn = false;
-    public void TryShowAvatar(bool newVisibility)
-    {
-        gameObject.SetActive(canSpawn && newVisibility);
     }
 
     #endregion
 
-    #region MonoBehaviour Functions
+    /// -----------------------------------------
+    /// ------------ UPPER BODY MODE ------------
+    /// -----------------------------------------
 
-    private void Awake()
+    public void UpdateNavigationAndLegAnimationData()
     {
-        heightOffsetter = GetComponent<HeightOffsetter>();
-    }
-
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-        heightOffsetter.bodyTrackingManager = bodyTrackingManager;
-    }
-
-    private void Update()
-    {
-        // reset automatic height offset calibration
-        if (Input.GetKeyDown(resetAutomaticOffset))
+        // Stabilize Y position
+        RaycastHit raycastHit = new RaycastHit();
+        if (Physics.Raycast(skhandler.TargetBodyPositionWithHipOffset + new Vector3(0,1,0),
+            Vector3.down, out raycastHit, 3f))
         {
-            heightOffsetter.CurrentheightOffset = 0;
-        }
-    }
-
-    #endregion
-
-    #region Foot IK
-
-    private Vector3 curIKTargetPosL = Vector3.zero;
-    private Vector3 curIKTargetPosR = Vector3.zero;
-    private Quaternion curIKTargetRotL = Quaternion.identity;
-    private Quaternion curIKTargetRotR = Quaternion.identity;
-    private Vector3 targetFootLockL = Vector3.zero;
-    private Vector3 targetFootLockR = Vector3.zero;
-    /// <summary>
-    /// Checks the foot locking state if the feature is enabled and returns the point on ground to use as effector for the IK.
-    /// </summary>
-    /// <param name="footLock">Foot locking state for this foot.</param>
-    /// <param name="hitPoint">Hit position of the ray from the foot.</param>
-    /// <param name="prevIKTargetPos">IK target on the previous frame. Should be replaced with the output of this function.</param>
-    /// <param name="grounded">If the foot is close enough to the ground to have full ik application.</param>
-    /// <param name="targetFootLock">Updated only if foot is unlocked. Target to lerp toward.</param>
-    /// <returns>The effector target position</returns>
-    private Vector3 FindIKTargetPosition(bool footLock, Vector3 hitPoint, Vector3 prevIKTargetPos, bool grounded, ref Vector3 targetFootLock)
-    {
-        float flsmooth = Mathf.Clamp(1 - bodyTrackingManager.footLockingSmoothingValue,0,1);
-        if (bodyTrackingManager.EnableFootLocking)
+            //transform.position = new Vector3(skhandler.TargetBodyPositionWithHipOffset.x, raycastHit.point.y, skhandler.TargetBodyPositionWithHipOffset.z);
+            skhandler.TargetBodyPositionWithHipOffset = new Vector3(skhandler.TargetBodyPositionWithHipOffset.x, raycastHit.point.y, skhandler.TargetBodyPositionWithHipOffset.z);
+        } else
         {
-            if (footLock && grounded)
-            {
-                return Vector3.Lerp(prevIKTargetPos,
-                    new Vector3(targetFootLock.x, hitPoint.y + ankleHeightOffset, targetFootLock.z),
-                    flsmooth);
-            } else
-            {
-                targetFootLock = hitPoint + new Vector3(0, ankleHeightOffset, 0);
-                return Vector3.Lerp(
-                prevIKTargetPos,
-                hitPoint + new Vector3(0, ankleHeightOffset, 0),
-                flsmooth);
-            }
-        }            
-        else
-        {
-            return Vector3.Lerp(
-            prevIKTargetPos, 
-            hitPoint + new Vector3(0, ankleHeightOffset, 0), 
-            flsmooth);
+            //transform.position = new Vector3 (skhandler.TargetBodyPositionWithHipOffset.x, 0, skhandler.TargetBodyPositionWithHipOffset.z);
+            skhandler.TargetBodyPositionWithHipOffset = new Vector3 (skhandler.TargetBodyPositionWithHipOffset.x, 0, skhandler.TargetBodyPositionWithHipOffset.z);
         }
+
+
+        // Take only rotation on Y axis.
+        //transform.rotation = Quaternion.Euler(0,skhandler.TargetBodyOrientationSmoothed.eulerAngles.y,0);
+        Skhandler.TargetBodyOrientationSmoothed = Quaternion.Euler(0, skhandler.TargetBodyOrientationSmoothed.eulerAngles.y, 0);
+        transform.rotation = skhandler.TargetBodyOrientationSmoothed;
+
+        // Find anim speed depending on if going forward or backward
+        //float sc = Vector3.Dot(transform.forward, skhandler.rootVelocity);
+        float sc = Vector3.Dot(transform.forward, skhandler.rootVelocity);
+        float animSpeed = sc >= 0 
+            ? skhandler.rootVelocity.magnitude 
+            : -1f * skhandler.rootVelocity.magnitude; 
+        
+        animator.SetFloat("Forward", animSpeed, 0.1f, Time.deltaTime);
     }
-
-    /// <summary>
-    /// Returns the target rotation for the IK. The goal it to have the foot flat depending on the normal found by the raycast.
-    /// </summary>
-    /// <param name="hitNormal">Normal at raycast hit.</param>
-    /// <param name="toePos">Toes position. Used to correctly orient the foot following its forward direction.</param>
-    /// <param name="anklePos">Ankle position. Used to correctly orient the foot following its forward direction.</param>
-    /// <returns></returns>
-    private Quaternion FindIKTargetRotation(Vector3 hitNormal, Vector3 toePos, Vector3 anklePos, Quaternion rootOrientation, Quaternion curFootRotation)
-    {
-        Vector3 forward = Vector3.ProjectOnPlane(rootOrientation * (toePos - anklePos), Vector3.up);
-        return Quaternion.Slerp(curFootRotation,Quaternion.LookRotation(forward, hitNormal), Mathf.Clamp(1 - bodyTrackingManager.footLockingSmoothingValue, 0, 1));
-    }
-
-    private Vector3 FindIKHintPosition(HumanBodyBones kneeBone)
-    {
-        Transform kneeT = animator.GetBoneTransform(kneeBone);
-        Vector3 hintPos = kneeT.position + 0.4f * kneeT.forward;
-        hintPos = animator.bodyRotation * hintPos;
-        hintPos += animator.bodyPosition;
-        return hintPos;
-    }
-
-    #endregion
-
-    #region Foot Locking
-    
-    /// <summary>
-    /// Check if the SDK ankle keypoints have moved far enough from their previous position (on the horizontal plane).
-    /// If not, it'll be considered jittering, and should be taken into account in the foot IK.
-    /// This method should be called when the ZEDBodyTrackingManager updates the handler, as it only relies on the SDK positions.
-    /// </summary>
-    /// <param name="newPosAnkleL"></param>
-    /// <param name="newPosAnkleR"></param>
-    public void CheckFootLock(Vector3 newPosAnkleL, Vector3 newPosAnkleR)
-    {
-        lockFootL = HorizontalDist(curPosAnkleL, newPosAnkleL) < thresholdFootLock;
-        lockFootR = HorizontalDist(curPosAnkleR, newPosAnkleR) < thresholdFootLock;
-        if(!lockFootL) curPosAnkleL = newPosAnkleL;
-        if(!lockFootR) curPosAnkleR = newPosAnkleR;
-    }
-
-    #endregion
 }

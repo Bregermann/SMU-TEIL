@@ -106,7 +106,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5426183247939467289}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9d61879c2b6b4edcabca7e5b99f7d55, type: 3}
   m_Name: 
@@ -118,10 +118,10 @@ MonoBehaviour:
   showLogGUI: 0
   recordLimitedFrames: 0
   recordFrames: 1000
-  changeTimeScale: 0
+  changeTimeScale: 1
   timeScaleOnStart: 0
   timeScaleOnRecord: 1
-  recordBlendShape: 0
+  recordBlendShape: 1
 --- !u!114 &-7904694750266493403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63952f2c045e9a6478744addbe18b516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameForRecording: Character
+  nameForRecording: recordmeplease
   framerateToRecordAt: 30
   recorder: {fileID: 11400000, guid: 65281f14811d4a348be1c76ade4498f0, type: 2}
   minimumDelta: 0.0001
