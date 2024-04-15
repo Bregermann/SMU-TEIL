@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/RecordingScene.unity
-    guid: 15e50baed1fd0fd43a8b1523669935bc
+    path: Assets/Scenes/DanceStudioScene.unity
+    guid: ac5cdadbdeb2ce04b880d86023a3541d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: fdf9d307a3dca2a478480045ff1d1fee, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 75c36cc0169e7a44bba4c7b664a8ce28, type: 2}

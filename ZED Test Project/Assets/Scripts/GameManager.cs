@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
         {
             uiButtons.SetActive(true);
         }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
     public void StartBodyTracking()
     {

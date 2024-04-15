@@ -134,7 +134,7 @@ public class RuntimeAnimationRecorder : MonoBehaviour
 
             // Save AnimationClip to a file
             string filePath = "Assets/RecordedAnimations/" + obj.name + ".anim";
-            AssetDatabase.CreateAsset(clip, filePath);
+     //       AssetDatabase.CreateAsset(clip, filePath);
             Debug.Log("Saved animation clip to: " + filePath);
         }
 

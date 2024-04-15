@@ -1329,6 +1329,7 @@ MonoBehaviour:
   zedManager: {fileID: 45177084}
   bodyTrackingManager: {fileID: 1388098755}
   uiButtons: {fileID: 2092610785}
+  threeDObjectVisualizer: {fileID: 0}
 --- !u!114 &722465883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1341,8 +1342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13269e2c2ac925944b6e467f30b05abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRecordingKey: 114
-  stopRecordingKey: 115
 --- !u!114 &722465884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2137,7 +2136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: inputType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: saveMeshWhenOver

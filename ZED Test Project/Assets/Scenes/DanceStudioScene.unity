@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 722465883}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnimationRecorder, Assembly-CSharp
         m_MethodName: RecordAnimation
         m_Mode: 1
@@ -1288,7 +1288,6 @@ GameObject:
   m_Component:
   - component: {fileID: 722465881}
   - component: {fileID: 722465882}
-  - component: {fileID: 722465883}
   - component: {fileID: 722465884}
   - component: {fileID: 722465885}
   - component: {fileID: 722465886}
@@ -1330,20 +1329,6 @@ MonoBehaviour:
   bodyTrackingManager: {fileID: 1388098755}
   uiButtons: {fileID: 2092610785}
   threeDObjectVisualizer: {fileID: 0}
---- !u!114 &722465883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 722465880}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13269e2c2ac925944b6e467f30b05abe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startRecordingKey: 114
-  stopRecordingKey: 115
 --- !u!114 &722465884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2925,7 +2910,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 722465883}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnimationRecorder, Assembly-CSharp
         m_MethodName: StopRecording
         m_Mode: 1
@@ -3815,7 +3800,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 722465883}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnimationRecorder, Assembly-CSharp
         m_MethodName: StartRecording
         m_Mode: 1
@@ -4139,7 +4124,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 722465883}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnimationRecorder, Assembly-CSharp
         m_MethodName: FindAvatar
         m_Mode: 1
