@@ -14,7 +14,10 @@ public class AvatarSwapper : MonoBehaviour
     {
         
     }
-
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
     // Update is called once per frame
     void Update()
     {

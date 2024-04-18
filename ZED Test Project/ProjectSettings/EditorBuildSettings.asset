@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/DanceStudioScene.unity
+    path: Assets/Scenes/Dance Studio Build/CharacterSelectionScene.unity
+    guid: cb21ad2535113b543b5e727d2cd618ae
+  - enabled: 1
+    path: Assets/Scenes/Dance Studio Build/DanceStudioScene.unity
     guid: ac5cdadbdeb2ce04b880d86023a3541d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: fdf9d307a3dca2a478480045ff1d1fee, type: 2}
