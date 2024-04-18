@@ -75,6 +75,7 @@ public class ZEDBodyTrackingManager : MonoBehaviour
     /// </summary>
     [Tooltip("3D Rigged model.")]
     public GameObject avatar;
+    public GameObject[] avatars;
     public Material skeletonBaseMaterial;
     [Tooltip("Display bones and joints along 3D avatar")]
     [SerializeField]
@@ -155,6 +156,8 @@ public class ZEDBodyTrackingManager : MonoBehaviour
     /// </summary>
     void Start()
     {
+        int selectedCharacter = PlayerPrefs.GetInt("selectedCharacter");
+        avatar = avatars[selectedCharacter];
         QualitySettings.vSyncCount = 1; // Activate vsync
 
         avatarControlList = new Dictionary<int,SkeletonHandler> ();

@@ -12,12 +12,10 @@ public class AvatarSwapper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        int selectedCharacter = PlayerPrefs.GetInt("selectedCharacter");
+        currentIndex = selectedCharacter;
     }
-    void Awake()
-    {
-        DontDestroyOnLoad(this.gameObject);
-    }
+
     // Update is called once per frame
     void Update()
     {
