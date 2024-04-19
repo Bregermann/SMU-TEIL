@@ -2123,7 +2123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: inputType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: saveMeshWhenOver
@@ -3647,7 +3647,7 @@ PrefabInstance:
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[0]
       value: 
-      objectReference: {fileID: 3049454300123104046, guid: 78d7f1109281c7a4ca0cf832618b36c6, type: 3}
+      objectReference: {fileID: 3789440086812998322, guid: 5d5a7e73e9f30c9479d39304e417f21d, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[1]
       value: 
@@ -3717,6 +3717,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton Tracking
       objectReference: {fileID: 0}
+    - target: {fileID: 8259250868885999823, guid: ca16f02c660a54048b78bd7760e4dba6, type: 3}
+      propertyPath: avatar
+      value: 
+      objectReference: {fileID: 3789440086812998322, guid: 5d5a7e73e9f30c9479d39304e417f21d, type: 3}
     - target: {fileID: 8259250868885999823, guid: ca16f02c660a54048b78bd7760e4dba6, type: 3}
       propertyPath: zedManager
       value: 
