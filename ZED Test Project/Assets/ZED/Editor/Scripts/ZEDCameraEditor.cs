@@ -110,7 +110,7 @@ public class ZEDCameraEditor : Editor
     private SerializedProperty meshPath;
 
     //Object Detection Prop
-    private SerializedProperty OD_ImageSyncMode;
+    //private SerializedProperty OD_ImageSyncMode;
     private SerializedProperty OD_ObjectTracking;
     private SerializedProperty OD_2DMask;
     private SerializedProperty OD_DetectionModel;
@@ -283,7 +283,7 @@ public class ZEDCameraEditor : Editor
         meshPath = serializedObject.FindProperty("meshPath");
 
         ///Object Detection Serialized Properties
-        OD_ImageSyncMode = serializedObject.FindProperty("objectDetectionImageSyncMode");
+        //OD_ImageSyncMode = serializedObject.FindProperty("objectDetectionImageSyncMode");
         OD_ObjectTracking = serializedObject.FindProperty("objectDetectionTracking");
 
         OD_2DMask = serializedObject.FindProperty("objectDetection2DMask");
@@ -605,8 +605,10 @@ public class ZEDCameraEditor : Editor
             "Can be useful for stationary cameras where you still need tracking enabled, such as in Object Detection.");
         trackingIsStaticProperty.boolValue = EditorGUILayout.Toggle(trackingIsStaticPropertyLabel, trackingIsStaticProperty.boolValue);
 
-        GUIContent positionalTrackingModePropertyLabel = new GUIContent("Positional Tracking Mode", "Lists the mode of positional tracking that can be used.");
-        positionalTrackingModeProperty.enumValueIndex = (int)(sl.POSTIONAL_TRACKING_MODE)EditorGUILayout.EnumPopup(positionalTrackingModePropertyLabel, (sl.POSTIONAL_TRACKING_MODE)positionalTrackingModeProperty.enumValueIndex);
+        GUIContent positionalTrackingModePropertyLabel = new GUIContent("Positional Tracking Mode", "Lists the mode of positional tracking that can be used.\r\n " +
+                        "- GEN_1 : Default mode, best compromise in performance and accuracy.\r\n" +
+                        "- GEN_2 : Next generation of positional tracking, allows better accuracy.");
+        positionalTrackingModeProperty.enumValueIndex = (int)(sl.POSITIONAL_TRACKING_MODE)EditorGUILayout.EnumPopup(positionalTrackingModePropertyLabel, (sl.POSITIONAL_TRACKING_MODE)positionalTrackingModeProperty.enumValueIndex);
 
         EditorGUI.indentLevel--;
 
@@ -1001,6 +1003,10 @@ public class ZEDCameraEditor : Editor
 
             GUIContent BT_MaxRangeLabel = new GUIContent("Max Detection Range", "Defines a upper depth range for detections.");
             BT_MaxRange.floatValue = EditorGUILayout.Slider(BT_MaxRangeLabel, BT_MaxRange.floatValue, 0, 40.0f);
+
+            GUIContent BT_Object2DMaskLabel = new GUIContent("Enable Segmentation", "Whether to calculate 2D masks for each object, showing exactly which pixels within the 2D bounding box are the object.\r\n\n" +
+                "Must be on when Object Detection starts. Requires more performance, so do not enable unless needed.");
+            BT_2DMask.boolValue = EditorGUILayout.Toggle(BT_Object2DMaskLabel, BT_2DMask.boolValue);
 
             GUIContent BT_AllowReducedPrecisionInferenceLabel = new GUIContent("Allow Reduced Precision Inference", "Allow inference to run at a lower precision to improve runtime and memory usage.");
             BT_AllowReducedPrecisionInference.boolValue = EditorGUILayout.Toggle(BT_AllowReducedPrecisionInferenceLabel, BT_AllowReducedPrecisionInference.boolValue);
