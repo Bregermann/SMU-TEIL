@@ -3641,21 +3641,29 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
+      propertyPath: avatars.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: bodyTrackingManager
       value: 
       objectReference: {fileID: 1388098755}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[0]
       value: 
-      objectReference: {fileID: 3789440086812998322, guid: 5d5a7e73e9f30c9479d39304e417f21d, type: 3}
+      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[1]
       value: 
-      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
+      objectReference: {fileID: 5426183247939467289, guid: f2ee99f7fb680614280786415631772d, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[2]
       value: 
-      objectReference: {fileID: 5426183247939467289, guid: f2ee99f7fb680614280786415631772d, type: 3}
+      objectReference: {fileID: 1577629577426895579, guid: 33f647073f764014ea539028af802721, type: 3}
+    - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
+      propertyPath: avatars.Array.data[3]
+      value: 
+      objectReference: {fileID: 3049454300123104046, guid: 78d7f1109281c7a4ca0cf832618b36c6, type: 3}
     - target: {fileID: 7758309120606879897, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: m_Name
       value: Avatar Swapper
@@ -3720,7 +3728,7 @@ PrefabInstance:
     - target: {fileID: 8259250868885999823, guid: ca16f02c660a54048b78bd7760e4dba6, type: 3}
       propertyPath: avatar
       value: 
-      objectReference: {fileID: 3789440086812998322, guid: 5d5a7e73e9f30c9479d39304e417f21d, type: 3}
+      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
     - target: {fileID: 8259250868885999823, guid: ca16f02c660a54048b78bd7760e4dba6, type: 3}
       propertyPath: zedManager
       value: 
