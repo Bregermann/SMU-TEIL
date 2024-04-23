@@ -2121,6 +2121,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 23084009649085918, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27e47bd369171664d8041076064c4862, type: 2}
+    - target: {fileID: 23931263026373856, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27e47bd369171664d8041076064c4862, type: 2}
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: inputType
       value: 0
@@ -3642,7 +3650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: bodyTrackingManager
@@ -3651,19 +3659,19 @@ PrefabInstance:
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[0]
       value: 
-      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
+      objectReference: {fileID: 132874342182186396, guid: 9883808bcf182444dbb4b251f9040811, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[1]
       value: 
-      objectReference: {fileID: 5426183247939467289, guid: f2ee99f7fb680614280786415631772d, type: 3}
+      objectReference: {fileID: 1474709653668000119, guid: 3fb23f2e442e38d4ebfb1857bfba0071, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[2]
       value: 
-      objectReference: {fileID: 1577629577426895579, guid: 33f647073f764014ea539028af802721, type: 3}
+      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[3]
       value: 
-      objectReference: {fileID: 3049454300123104046, guid: 78d7f1109281c7a4ca0cf832618b36c6, type: 3}
+      objectReference: {fileID: 1577629577426895579, guid: 33f647073f764014ea539028af802721, type: 3}
     - target: {fileID: 7758309120606879897, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: m_Name
       value: Avatar Swapper
@@ -3728,7 +3736,7 @@ PrefabInstance:
     - target: {fileID: 8259250868885999823, guid: ca16f02c660a54048b78bd7760e4dba6, type: 3}
       propertyPath: avatar
       value: 
-      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
+      objectReference: {fileID: 132874342182186396, guid: 9883808bcf182444dbb4b251f9040811, type: 3}
     - target: {fileID: 8259250868885999823, guid: ca16f02c660a54048b78bd7760e4dba6, type: 3}
       propertyPath: zedManager
       value: 

@@ -14,6 +14,7 @@ public class AvatarSwapper : MonoBehaviour
     {
         int selectedCharacter = PlayerPrefs.GetInt("selectedCharacter");
         currentIndex = selectedCharacter;
+        bodyTrackingManager.avatar = avatars[currentIndex];
     }
 
     // Update is called once per frame
