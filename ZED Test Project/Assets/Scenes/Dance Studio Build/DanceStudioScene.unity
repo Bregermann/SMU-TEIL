@@ -3650,7 +3650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: bodyTrackingManager
@@ -3659,17 +3659,21 @@ PrefabInstance:
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[0]
       value: 
-      objectReference: {fileID: 132874342182186396, guid: 9883808bcf182444dbb4b251f9040811, type: 3}
+      objectReference: {fileID: 1909463320924522393, guid: 203de74f1639836479bb898415c1cb3c, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[1]
       value: 
-      objectReference: {fileID: 3965135218780306576, guid: bab6ae1a88730f64bbce756912ed05af, type: 3}
+      objectReference: {fileID: 132874342182186396, guid: 9883808bcf182444dbb4b251f9040811, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[2]
       value: 
-      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
+      objectReference: {fileID: 3965135218780306576, guid: bab6ae1a88730f64bbce756912ed05af, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[3]
+      value: 
+      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
+    - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
+      propertyPath: avatars.Array.data[4]
       value: 
       objectReference: {fileID: 1577629577426895579, guid: 33f647073f764014ea539028af802721, type: 3}
     - target: {fileID: 7758309120606879897, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
@@ -3736,7 +3740,7 @@ PrefabInstance:
     - target: {fileID: 8259250868885999823, guid: ca16f02c660a54048b78bd7760e4dba6, type: 3}
       propertyPath: avatar
       value: 
-      objectReference: {fileID: 132874342182186396, guid: 9883808bcf182444dbb4b251f9040811, type: 3}
+      objectReference: {fileID: 1909463320924522393, guid: 203de74f1639836479bb898415c1cb3c, type: 3}
     - target: {fileID: 8259250868885999823, guid: ca16f02c660a54048b78bd7760e4dba6, type: 3}
       propertyPath: zedManager
       value: 
