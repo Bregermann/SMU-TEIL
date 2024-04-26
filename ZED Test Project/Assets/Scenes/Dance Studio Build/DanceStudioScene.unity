@@ -3650,7 +3650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.size
-      value: 5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: bodyTrackingManager
@@ -3663,17 +3663,33 @@ PrefabInstance:
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[1]
       value: 
-      objectReference: {fileID: 132874342182186396, guid: 9883808bcf182444dbb4b251f9040811, type: 3}
+      objectReference: {fileID: 5770841752238219876, guid: d47bfd41b32fbf947b9a754ca4d8ac30, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[2]
       value: 
-      objectReference: {fileID: 3965135218780306576, guid: bab6ae1a88730f64bbce756912ed05af, type: 3}
+      objectReference: {fileID: 895395549313035500, guid: 262b5949342a7774bbdb556e44466418, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[3]
       value: 
-      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
+      objectReference: {fileID: 3768797957486356749, guid: fde83ae0f3c844448b64fc5da3d102ee, type: 3}
     - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
       propertyPath: avatars.Array.data[4]
+      value: 
+      objectReference: {fileID: 3270203251222197419, guid: 47cd23b3a0de7fd488ff82be1bad68f4, type: 3}
+    - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
+      propertyPath: avatars.Array.data[5]
+      value: 
+      objectReference: {fileID: 132874342182186396, guid: 9883808bcf182444dbb4b251f9040811, type: 3}
+    - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
+      propertyPath: avatars.Array.data[6]
+      value: 
+      objectReference: {fileID: 3965135218780306576, guid: bab6ae1a88730f64bbce756912ed05af, type: 3}
+    - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
+      propertyPath: avatars.Array.data[7]
+      value: 
+      objectReference: {fileID: 9118140948381514423, guid: bc814fadc039fe94099273e678b5903a, type: 3}
+    - target: {fileID: 5449962189332005081, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
+      propertyPath: avatars.Array.data[8]
       value: 
       objectReference: {fileID: 1577629577426895579, guid: 33f647073f764014ea539028af802721, type: 3}
     - target: {fileID: 7758309120606879897, guid: 9de0b8ddc5f6102459531fa47acacc3b, type: 3}
