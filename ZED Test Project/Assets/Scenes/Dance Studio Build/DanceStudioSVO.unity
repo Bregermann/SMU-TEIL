@@ -1339,7 +1339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea5a47dcd72829340b22befde976e4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openSVOButton: {fileID: 1784625263}
   zedManager: {fileID: 45177084}
 --- !u!1 &755437029
 GameObject:
@@ -2106,6 +2105,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
+      propertyPath: svoLoopBack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: saveMeshWhenOver
       value: 1
       objectReference: {fileID: 0}
@@ -2116,7 +2119,7 @@ PrefabInstance:
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: svoInputFileName
       value: C:/Users/Dicklett/Unity Projects/SMU-TEIL/ZED Test Project/Assets/SVO
-        Files/first.svo
+        Files/second.svo
       objectReference: {fileID: 0}
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: trackingIsStatic
@@ -4117,7 +4120,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1784625264}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 722465883}
+        m_TargetAssemblyTypeName: SVOPlayer, Assembly-CSharp
+        m_MethodName: OpenFileDialog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+      - m_Target: {fileID: 722465883}
+        m_TargetAssemblyTypeName: SVOPlayer, Assembly-CSharp
+        m_MethodName: ResetPlayback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &1784625264
 MonoBehaviour:
   m_ObjectHideFlags: 0

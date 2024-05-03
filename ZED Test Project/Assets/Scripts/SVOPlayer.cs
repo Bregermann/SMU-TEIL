@@ -5,16 +5,14 @@ using sl;  // ZED SDK namespace
 
 public class SVOPlayer : MonoBehaviour
 {
-    public Button openSVOButton;  // UI button to open file dialog
+    //public Button openSVOButton;  // UI button to open file dialog
     public ZEDManager zedManager;  // ZED Manager for handling camera/SVO operations
 
     void Start()
     {
-        // Add a click listener to the button to open the file dialog
-        openSVOButton.onClick.AddListener(OpenFileDialog);
-    }
 
-    void OpenFileDialog()
+    }
+    public void OpenFileDialog()
     {
         // Open file dialog and restrict to SVO files
         var filters = new[] { new ExtensionFilter("SVO Files", "svo") };
@@ -31,4 +29,12 @@ public class SVOPlayer : MonoBehaviour
             }
         }
     }
+    public void ResetPlayback()
+    {
+        if (zedManager != null)
+        {
+            zedManager.Reset();
+        }
+    }
+
 }
