@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,6 +32,10 @@ public class GameManager : MonoBehaviour
         {
             Application.Quit();
         }
+    }
+    public void BackToCharacterSelect()
+    {
+        SceneManager.LoadScene(0);
     }
     public void StartBodyTracking()
     {

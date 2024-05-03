@@ -28,5 +28,10 @@ public void NextCharacter()
         PlayerPrefs.SetInt("selectedCharacter", selectedCharacter);
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
+    public void StartGameSVO()
+    {
+        PlayerPrefs.SetInt("selectedCharacter", selectedCharacter);
+        SceneManager.LoadScene(2, LoadSceneMode.Single);
+    }
 
 }
