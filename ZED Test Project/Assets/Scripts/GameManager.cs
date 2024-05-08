@@ -51,8 +51,7 @@ public class GameManager : MonoBehaviour
     }
     public void StopRecord()
     {
-        //stop recording stereolabs cameras
-        //pop up two buttons, one to save, one to not
+        //stop recording stereolabs cameras and auto save
     }
    public void SaveRecording()
     {
