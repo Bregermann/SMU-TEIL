@@ -464,7 +464,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
   m_PrefabInstance: {fileID: 1032069188}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 398041722}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75b2a3ff7b847ca4490808f4c0432cd4, type: 3}
@@ -898,6 +898,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &293783455 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8267794096380899588, guid: 1ab05537188fa7c45b2b1f845fe52980, type: 3}
+  m_PrefabInstance: {fileID: 1448959726}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &323259341
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,6 +1155,11 @@ Transform:
   - {fileID: 1469711600}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &398041722 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1603769914748404, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
+  m_PrefabInstance: {fileID: 1032069188}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &422802703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,7 +1909,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 644575074}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 722465883}
+        m_TargetAssemblyTypeName: SVOPlayer, Assembly-CSharp
+        m_MethodName: OpenAudioButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &644575074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2023,7 +2045,9 @@ MonoBehaviour:
   - {fileID: 1577105392}
   - {fileID: 1431055364}
   buttonIndex: 0
-  audioButtonsUIObject: {fileID: 1448959737}
+  audioButtonsUIObject: {fileID: 293783455}
+  zedRig: {fileID: 398041722}
+  skyboxMaterial: {fileID: 2100000, guid: 52fcefd712182d743a781fde12426775, type: 2}
 --- !u!1 &744459361
 GameObject:
   m_ObjectHideFlags: 0
@@ -3193,6 +3217,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZED_Rig_Stereo
       objectReference: {fileID: 0}
+    - target: {fileID: 1603769914748404, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4138687653623062, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -3276,7 +3304,7 @@ PrefabInstance:
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: svoInputFileName
       value: C:/Users/Dicklett/Unity Projects/SMU-TEIL/ZED Test Project/Assets/SVO
-        Files/first.svo
+        Files/second.svo
       objectReference: {fileID: 0}
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac, type: 3}
       propertyPath: trackingIsStatic
@@ -5271,11 +5299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1448959737 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 413423210129255092, guid: 1ab05537188fa7c45b2b1f845fe52980, type: 3}
-  m_PrefabInstance: {fileID: 1448959726}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1469711599
 GameObject:
   m_ObjectHideFlags: 0
