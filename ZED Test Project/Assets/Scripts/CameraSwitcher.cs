@@ -2,69 +2,56 @@ using UnityEngine;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    // Assign these in the Unity Inspector with the objects you'd like to switch between
-    public Transform[] targetTransforms;
+    // Array to store all cameras in the scene
+    public Camera[] cameras;
 
-    // Option to control the speed of the camera movement
-    public float moveSpeed = 2.0f;
+    // Index of the currently active camera
+    private int currentCameraIndex = 0;
 
-    // The current target index
-    private int currentTargetIndex = 0;
-
-    // Camera reference
-    private Camera mainCamera;
+    // Key to cycle through cameras
+    public KeyCode nextCameraKey = KeyCode.RightArrow; // Change as needed
+    public KeyCode prevCameraKey = KeyCode.LeftArrow; // Change as needed
 
     private void Start()
     {
-        // Get the main camera reference
-        mainCamera = Camera.main;
-
-        // Set the initial position of the camera
-        if (targetTransforms.Length > 0)
+        // Ensure only the first camera is active initially
+        for (int i = 0; i < cameras.Length; i++)
         {
-            mainCamera.transform.position = targetTransforms[currentTargetIndex].position;
+            cameras[i].gameObject.SetActive(i == currentCameraIndex);
         }
     }
 
     private void Update()
     {
-        // Check for input to cycle through targets
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (cameras.Length <= 1)
         {
-            CycleToNextTarget();
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            CycleToPreviousTarget();
+            return; // No need to switch if there's only one camera
         }
 
-        // Smoothly move the camera to the current target's position
-        if (targetTransforms.Length > 0)
+        // Switch to the next camera
+        if (Input.GetKeyDown(nextCameraKey))
         {
-            Vector3 targetPosition = targetTransforms[currentTargetIndex].position;
-            mainCamera.transform.position = Vector3.Lerp(
-                mainCamera.transform.position,
-                targetPosition,
-                Time.deltaTime * moveSpeed
-            );
+            CycleToNextCamera();
+        }
+
+        // Switch to the previous camera
+        if (Input.GetKeyDown(prevCameraKey))
+        {
+            CycleToPreviousCamera();
         }
     }
 
-    // Switch to the next target
-    public void CycleToNextTarget()
+    private void CycleToNextCamera()
     {
-        if (targetTransforms.Length > 1)
-        {
-            currentTargetIndex = (currentTargetIndex + 1) % targetTransforms.Length;
-        }
+        cameras[currentCameraIndex].gameObject.SetActive(false); // Disable current camera
+        currentCameraIndex = (currentCameraIndex + 1) % cameras.Length; // Move to the next
+        cameras[currentCameraIndex].gameObject.SetActive(true); // Enable new camera
     }
 
-    // Switch to the previous target
-    public void CycleToPreviousTarget()
+    private void CycleToPreviousCamera()
     {
-        if (targetTransforms.Length > 1)
-        {
-            currentTargetIndex = (currentTargetIndex - 1 + targetTransforms.Length) % targetTransforms.Length;
-        }
+        cameras[currentCameraIndex].gameObject.SetActive(false); // Disable current camera
+        currentCameraIndex = (currentCameraIndex - 1 + cameras.Length) % cameras.Length; // Move to the previous
+        cameras[currentCameraIndex].gameObject.SetActive(true); // Enable new camera
     }
 }
