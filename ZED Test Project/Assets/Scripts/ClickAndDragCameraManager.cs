@@ -32,6 +32,7 @@ public class ClickAndDragCameraManager : MonoBehaviour
         // Check if the left mouse button is clicked
         if (Input.GetMouseButtonDown(0))
         {
+            allCameras = Camera.allCameras;
             // Start dragging and capture the initial mouse position
             isDragging = true;
             previousMousePosition = Input.mousePosition;
