@@ -18,12 +18,6 @@ public class MatchMultipleTransformsToggle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*      if (targetObjects.Length == 0)
-              {
-                  Debug.LogWarning("No target objects found with tag: " + targetTag);
-                  return;
-              }
-        */
         if (OVRInput.Get(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.S)) 
         {
             LookForHead();

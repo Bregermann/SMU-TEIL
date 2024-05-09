@@ -54,6 +54,8 @@ public class SVOPlayer : MonoBehaviour
         PlayAllSources();
         RenderSettings.skybox = skyboxMaterial;
         DynamicGI.UpdateEnvironment();
+        audioButtonsUIObject.SetActive(false);
+
     }
     public void OpenFileDialog()
     {

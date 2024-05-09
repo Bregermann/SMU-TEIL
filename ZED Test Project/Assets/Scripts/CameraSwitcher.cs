@@ -12,12 +12,20 @@ public class CameraSwitcher : MonoBehaviour
     public KeyCode nextCameraKey = KeyCode.RightArrow; // Change as needed
     public KeyCode prevCameraKey = KeyCode.LeftArrow; // Change as needed
 
+    private AudioListener audioListener;
+
     private void Start()
     {
+        audioListener = FindObjectOfType<AudioListener>();
+        if (audioListener == null)
+        {
+            audioListener = new GameObject("Audio Listener").AddComponent<AudioListener>();
+        }
         // Ensure only the first camera is active initially
         for (int i = 0; i < cameras.Length; i++)
         {
             cameras[i].gameObject.SetActive(i == currentCameraIndex);
+            SetActiveCamera(currentCameraIndex);
         }
     }
 
@@ -45,13 +53,28 @@ public class CameraSwitcher : MonoBehaviour
     {
         cameras[currentCameraIndex].gameObject.SetActive(false); // Disable current camera
         currentCameraIndex = (currentCameraIndex + 1) % cameras.Length; // Move to the next
-        cameras[currentCameraIndex].gameObject.SetActive(true); // Enable new camera
+       //cameras[currentCameraIndex].gameObject.SetActive(true); // Enable new camera
+        SetActiveCamera(currentCameraIndex);
     }
 
     private void CycleToPreviousCamera()
     {
         cameras[currentCameraIndex].gameObject.SetActive(false); // Disable current camera
         currentCameraIndex = (currentCameraIndex - 1 + cameras.Length) % cameras.Length; // Move to the previous
-        cameras[currentCameraIndex].gameObject.SetActive(true); // Enable new camera
+        //cameras[currentCameraIndex].gameObject.SetActive(true); // Enable new camera
+        SetActiveCamera(currentCameraIndex);
+    }
+
+    private void SetActiveCamera(int index)
+    {
+        // Enable the camera at the specified index
+        cameras[index].gameObject.SetActive(true);
+
+        // Move the Audio Listener to the active camera
+        if (audioListener != null)
+        {
+            audioListener.transform.SetParent(cameras[index].transform, false);
+            audioListener.transform.localPosition = Vector3.zero;
+        }
     }
 }

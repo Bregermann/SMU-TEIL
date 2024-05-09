@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Dance Studio Build/CharacterSelectionScene.unity
     guid: cb21ad2535113b543b5e727d2cd618ae
   - enabled: 1
-    path: Assets/Scenes/Dance Studio Build/DanceStudioScene.unity
-    guid: ac5cdadbdeb2ce04b880d86023a3541d
+    path: Assets/Scenes/Dance Studio Build/DanceStudioLive.unity
+    guid: 2379698288f321c4eb7ff1779df9ca28
   - enabled: 1
     path: Assets/Scenes/Dance Studio Build/DanceStudioSVO.unity
     guid: 8a27f0acb3a80144b851786d0e125a7a
