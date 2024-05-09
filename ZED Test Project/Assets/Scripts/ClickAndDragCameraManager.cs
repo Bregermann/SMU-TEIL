@@ -11,27 +11,26 @@ public class ClickAndDragCameraManager : MonoBehaviour
     // Whether the camera is currently being dragged
     private bool isDragging = false;
 
-    // Reference to the main camera
-    private Camera mainCamera;
+    // Reference to all cameras in the scene
+    private Camera[] allCameras;
 
     private void Start()
     {
-        // Find the main camera in the scene
-        mainCamera = Camera.main;
+        // Find all cameras in the scene
+        allCameras = Camera.allCameras;
 
-        if (mainCamera == null)
+        if (allCameras.Length == 0)
         {
-            Debug.LogError("No main camera found in the scene!");
+            Debug.LogError("No cameras found in the scene!");
         }
     }
 
     private void Update()
     {
-        // Ensure we have a valid camera before doing anything
-        if (mainCamera == null) return;
+        if (allCameras.Length == 0) return; // No cameras to rotate
 
         // Check if the left mouse button is clicked
-        if (Input.GetMouseButtonDown(0)) // 0 is the left mouse button
+        if (Input.GetMouseButtonDown(0))
         {
             // Start dragging and capture the initial mouse position
             isDragging = true;
@@ -44,7 +43,7 @@ public class ClickAndDragCameraManager : MonoBehaviour
             isDragging = false;
         }
 
-        // If dragging, calculate the rotation
+        // If dragging, calculate the rotation for all cameras
         if (isDragging)
         {
             // Get the current mouse position
@@ -53,25 +52,29 @@ public class ClickAndDragCameraManager : MonoBehaviour
             // Calculate the delta in the X and Y axis
             Vector2 mouseDelta = currentMousePosition - previousMousePosition;
 
-            // Apply rotation to the camera based on the mouse delta
-            mainCamera.transform.Rotate(0, mouseDelta.x * rotationSensitivity, 0, Space.World);
-
-            // Vertical rotation (pitch) - Negative sign because moving the mouse up should rotate the camera down
-            mainCamera.transform.Rotate(-mouseDelta.y * rotationSensitivity, 0, 0, Space.Self);
-
-            // Clamp the pitch rotation to avoid flipping over
-            Vector3 currentRotation = mainCamera.transform.localEulerAngles;
-            float pitch = currentRotation.x;
-
-            if (pitch > 180)
+            foreach (var camera in allCameras)
             {
-                pitch -= 360;
+                if (camera == null) continue; // Skip null cameras
+
+                // Apply horizontal (yaw) rotation around the Y-axis
+                camera.transform.Rotate(0, mouseDelta.x * rotationSensitivity, 0, Space.World);
+
+                // Apply vertical (pitch) rotation around the X-axis
+                camera.transform.Rotate(-mouseDelta.y * rotationSensitivity, 0, 0, Space.Self);
+
+                // Clamp pitch rotation to avoid flipping over
+                Vector3 currentRotation = camera.transform.localEulerAngles;
+
+                float pitch = currentRotation.x;
+                if (pitch > 180)
+                {
+                    pitch -= 360;
+                }
+
+                currentRotation.x = Mathf.Clamp(pitch, -90, 90);
+
+                camera.transform.localEulerAngles = currentRotation;
             }
-
-            currentRotation.x = Mathf.Clamp(pitch, -90, 90);
-
-            // Apply the clamped rotation
-            mainCamera.transform.localEulerAngles = currentRotation;
 
             // Update the previous mouse position
             previousMousePosition = currentMousePosition;
