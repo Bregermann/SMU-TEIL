@@ -1,49 +1,61 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    // Array to store all cameras in the scene
-    public Camera[] cameras;
+    // List of cameras to manage
+    private List<Camera> cameras = new List<Camera>();
 
     // Index of the currently active camera
     private int currentCameraIndex = 0;
 
-    // Key to cycle through cameras
-    public KeyCode nextCameraKey = KeyCode.RightArrow; // Change as needed
-    public KeyCode prevCameraKey = KeyCode.LeftArrow; // Change as needed
+    // Keys to cycle through cameras
+    public KeyCode nextCameraKey = KeyCode.RightArrow;
+    public KeyCode prevCameraKey = KeyCode.LeftArrow;
 
+    // Tag used to find cameras
+    public string cameraTag = "SwitchableCamera"; // Default tag for switchable cameras
+
+    // Reference to the Audio Listener
     private AudioListener audioListener;
 
     private void Start()
     {
+        // Find and add cameras with the specified tag
+        FindAndAddCameras();
+
+        // Ensure there's at least one camera
+        if (cameras.Count == 0)
+        {
+            Debug.LogError("No cameras found with the specified tag!");
+            return;
+        }
+
+        // Find or create the Audio Listener
         audioListener = FindObjectOfType<AudioListener>();
         if (audioListener == null)
         {
-            audioListener = new GameObject("Audio Listener").AddComponent<AudioListener>();
+            audioListener = new GameObject("AudioListener").AddComponent<AudioListener>();
         }
-        // Ensure only the first camera is active initially
-        for (int i = 0; i < cameras.Length; i++)
-        {
-            cameras[i].gameObject.SetActive(i == currentCameraIndex);
-            SetActiveCamera(currentCameraIndex);
-        }
+
+        // Activate the first camera and move the Audio Listener
+        SetActiveCamera(currentCameraIndex);
     }
 
     private void Update()
     {
-        if (cameras.Length <= 1)
+        if (cameras.Count <= 1)
         {
             return; // No need to switch if there's only one camera
         }
 
-        // Switch to the next camera
+        // Check for input to switch cameras
         if (Input.GetKeyDown(nextCameraKey))
         {
             CycleToNextCamera();
         }
-
-        // Switch to the previous camera
-        if (Input.GetKeyDown(prevCameraKey))
+        else if (Input.GetKeyDown(prevCameraKey))
         {
             CycleToPreviousCamera();
         }
@@ -51,17 +63,43 @@ public class CameraSwitcher : MonoBehaviour
 
     private void CycleToNextCamera()
     {
-        cameras[currentCameraIndex].gameObject.SetActive(false); // Disable current camera
-        currentCameraIndex = (currentCameraIndex + 1) % cameras.Length; // Move to the next
-       //cameras[currentCameraIndex].gameObject.SetActive(true); // Enable new camera
+        // Find and add new cameras before switching
+        FindAndAddCameras();
+
+        // Disable the current camera if it's not destroyed
+        if (cameras[currentCameraIndex] != null)
+        {
+            cameras[currentCameraIndex].gameObject.SetActive(false);
+        }
+
+        // Move to the next available camera
+        do
+        {
+            currentCameraIndex = (currentCameraIndex + 1) % cameras.Count;
+        } while (cameras[currentCameraIndex] == null);
+
+        // Activate the new camera and move the Audio Listener
         SetActiveCamera(currentCameraIndex);
     }
 
     private void CycleToPreviousCamera()
     {
-        cameras[currentCameraIndex].gameObject.SetActive(false); // Disable current camera
-        currentCameraIndex = (currentCameraIndex - 1 + cameras.Length) % cameras.Length; // Move to the previous
-        //cameras[currentCameraIndex].gameObject.SetActive(true); // Enable new camera
+        // Find and add new cameras before switching
+        FindAndAddCameras();
+
+        // Disable the current camera if it's not destroyed
+        if (cameras[currentCameraIndex] != null)
+        {
+            cameras[currentCameraIndex].gameObject.SetActive(false);
+        }
+
+        // Move to the previous available camera
+        do
+        {
+            currentCameraIndex = (currentCameraIndex - 1 + cameras.Count) % cameras.Count;
+        } while (cameras[currentCameraIndex] == null);
+
+        // Activate the new camera and move the Audio Listener
         SetActiveCamera(currentCameraIndex);
     }
 
@@ -76,5 +114,27 @@ public class CameraSwitcher : MonoBehaviour
             audioListener.transform.SetParent(cameras[index].transform, false);
             audioListener.transform.localPosition = Vector3.zero;
         }
+    }
+
+    private void FindAndAddCameras()
+    {
+        // Find all cameras with the specified tag
+        Camera[] foundCameras = GameObject.FindGameObjectsWithTag(cameraTag)
+            .Select(go => go.GetComponent<Camera>())
+            .Where(cam => cam != null)
+            .OrderBy(cam => cam.name) // Sort cameras alphabetically based on name
+            .ToArray();
+
+        // Add new cameras to the list if they're not already included
+        foreach (Camera cam in foundCameras)
+        {
+            if (!cameras.Contains(cam))
+            {
+                cameras.Add(cam);
+            }
+        }
+
+        // Remove destroyed cameras from the list
+        cameras.RemoveAll(cam => cam == null);
     }
 }

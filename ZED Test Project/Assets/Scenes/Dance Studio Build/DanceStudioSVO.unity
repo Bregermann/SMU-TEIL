@@ -175,7 +175,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -226,7 +226,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -437,7 +437,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -488,7 +488,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -536,8 +536,8 @@ GameObject:
   - component: {fileID: 70047766}
   - component: {fileID: 70047765}
   m_Layer: 0
-  m_Name: Front Middle
-  m_TagString: Untagged
+  m_Name: B_Front Middle
+  m_TagString: SwitchableCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -807,7 +807,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -858,7 +858,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1018,8 +1018,8 @@ GameObject:
   - component: {fileID: 247742138}
   - component: {fileID: 247742137}
   m_Layer: 0
-  m_Name: Center
-  m_TagString: Untagged
+  m_Name: E_Center
+  m_TagString: SwitchableCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1325,7 +1325,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -1376,7 +1376,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1832,8 +1832,8 @@ GameObject:
   - component: {fileID: 470632128}
   - component: {fileID: 470632127}
   m_Layer: 0
-  m_Name: Front Right
-  m_TagString: Untagged
+  m_Name: C_Front Right
+  m_TagString: SwitchableCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2093,8 +2093,8 @@ GameObject:
   - component: {fileID: 518409031}
   - component: {fileID: 518409030}
   m_Layer: 0
-  m_Name: Back Middle
-  m_TagString: Untagged
+  m_Name: H_Back Middle
+  m_TagString: SwitchableCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2399,7 +2399,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -2450,7 +2450,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2487,8 +2487,8 @@ GameObject:
   - component: {fileID: 575989827}
   - component: {fileID: 575989826}
   m_Layer: 0
-  m_Name: Middle Left
-  m_TagString: Untagged
+  m_Name: D_Middle Left
+  m_TagString: SwitchableCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2977,18 +2977,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f7652ffca3f0343a9b6aa29a870823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameras:
-  - {fileID: 724729770}
-  - {fileID: 70047766}
-  - {fileID: 470632128}
-  - {fileID: 575989827}
-  - {fileID: 247742138}
-  - {fileID: 1935502494}
-  - {fileID: 2047385085}
-  - {fileID: 518409031}
-  - {fileID: 1206341746}
   nextCameraKey: 275
   prevCameraKey: 276
+  cameraTag: SwitchableCamera
 --- !u!114 &722465885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3014,8 +3005,8 @@ GameObject:
   - component: {fileID: 724729770}
   - component: {fileID: 724729769}
   m_Layer: 0
-  m_Name: Front Left
-  m_TagString: Untagged
+  m_Name: A_Front Left
+  m_TagString: SwitchableCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3450,7 +3441,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -3501,7 +3492,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -3984,7 +3975,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -4035,7 +4026,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -4183,7 +4174,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -4234,7 +4225,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5058,8 +5049,8 @@ GameObject:
   - component: {fileID: 1206341746}
   - component: {fileID: 1206341745}
   m_Layer: 0
-  m_Name: Back Right
-  m_TagString: Untagged
+  m_Name: I_Back Right
+  m_TagString: SwitchableCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6801,7 +6792,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -6852,7 +6843,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -7862,8 +7853,8 @@ GameObject:
   - component: {fileID: 1935502494}
   - component: {fileID: 1935502493}
   m_Layer: 0
-  m_Name: Middle Right
-  m_TagString: Untagged
+  m_Name: F_Middle Right
+  m_TagString: SwitchableCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8257,8 +8248,8 @@ GameObject:
   - component: {fileID: 2047385085}
   - component: {fileID: 2047385084}
   m_Layer: 0
-  m_Name: Back Left
-  m_TagString: Untagged
+  m_Name: G_Back Left
+  m_TagString: SwitchableCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -9,6 +9,7 @@ TagManager:
   - zomBunny
   - head
   - RecordMe
+  - SwitchableCamera
   layers:
   - Default
   - TransparentFX
