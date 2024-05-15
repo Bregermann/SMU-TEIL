@@ -137,4 +137,15 @@ public class CameraSwitcher : MonoBehaviour
         // Remove destroyed cameras from the list
         cameras.RemoveAll(cam => cam == null);
     }
+    // Method to get the list of cameras
+    public List<Camera> GetCameras()
+    {
+        return cameras;
+    }
+
+    // Method to get the current active camera index
+    public int GetCurrentCameraIndex()
+    {
+        return currentCameraIndex;
+    }
 }
