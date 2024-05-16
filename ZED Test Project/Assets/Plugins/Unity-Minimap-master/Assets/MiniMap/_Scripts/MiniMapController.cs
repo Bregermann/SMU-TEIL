@@ -66,8 +66,17 @@ public class MiniMapController : MonoBehaviour {
 	Vector2 res;
 	Image miniMapPanelImage;
 
-	//Initialize everything here
-	public void OnEnable(){
+    [Tooltip("Prefab for the view cone")]
+    public GameObject viewConePrefab;
+    private GameObject viewConeInstance;
+    [Tooltip("Layer for the view cone")]
+    public LayerMask viewConeLayer;
+    [Tooltip("Offset for the view cone relative to the target")]
+    public Vector3 viewConeOffset = new Vector3(0f, 7.5f, 0f);
+
+    //Initialize everything here
+    public void OnEnable()
+	{
 		ownerIconMap.Clear ();
 		GameObject maskPanelGO = transform.GetComponentInChildren<Mask> ().gameObject;
 		mapPanelMask = maskPanelGO.GetComponent<Image> ();
@@ -88,7 +97,17 @@ public class MiniMapController : MonoBehaviour {
 		miniMapPanelImage = miniMapPanel.GetComponent<Image> ();
 		miniMapPanelImage.enabled = !showBackground;
 		SetupRenderTexture();
-	}
+
+        // Initialize the view cone
+        if (viewConePrefab != null)
+        {
+            viewConeInstance = Instantiate(viewConePrefab, miniMapPanel.transform);
+            viewConeInstance.transform.localPosition = Vector3.zero; // Ensure it is centered on the minimap
+
+            // Set the layer of the view cone
+            SetLayerRecursively(viewConeInstance, LayerMask.NameToLayer("ViewConeLayer"));
+        }
+    }
 	//Release the unmanaged objects
 	void OnDisable(){
 		if (renderTex != null) {
@@ -125,7 +144,13 @@ public class MiniMapController : MonoBehaviour {
 		mapPanelRect.sizeDelta = mapPanelMaskRect.sizeDelta;
 		miniMapPanelImage.enabled = !showBackground;
 
-		if (Screen.width != res.x || Screen.height != res.y) {
+        // Update the view cone position and rotation
+        if (viewConeInstance != null && target != null)
+        {
+            UpdateViewCone();
+        }
+
+        if (Screen.width != res.x || Screen.height != res.y) {
 			//Set the render texture
 			SetupRenderTexture ();
 			//res = new Vector2(Screen.width,Screen.height);
@@ -169,9 +194,43 @@ public class MiniMapController : MonoBehaviour {
 			mapCamera.transform.position = target.position + cameraOffset;
 		}
 	}
+    void UpdateViewCone()
+    {
+        // Ensure the view cone is properly scaled and positioned
+        Vector3 viewConePosition = target.position + viewConeOffset;
+        viewConeInstance.transform.position = viewConePosition;
 
-	//Register's minimap objects here
-	public MapObject RegisterMapObject(GameObject owner, MiniMapEntity mme){
+        // If the minimap rotates with the target, adjust the view cone's rotation accordingly
+        if (rotateWithTarget)
+        {
+            viewConeInstance.transform.rotation = Quaternion.Euler(90, target.eulerAngles.y, 0);
+        }
+        else
+        {
+            viewConeInstance.transform.rotation = Quaternion.Euler(90, 0, 0);
+        }
+    }
+
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        if (obj == null)
+        {
+            return;
+        }
+
+        obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            if (child == null)
+            {
+                continue;
+            }
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
+    }
+    //Register's minimap objects here
+    public MapObject RegisterMapObject(GameObject owner, MiniMapEntity mme){
 		GameObject curMGO = Instantiate (iconPref);
 		MapObject curMO = curMGO.AddComponent<MapObject> ();
 		curMO.SetMiniMapEntityValues (this,mme,owner,mapCamera,miniMapPanel);
