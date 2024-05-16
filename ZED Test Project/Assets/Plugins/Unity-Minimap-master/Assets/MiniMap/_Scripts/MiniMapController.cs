@@ -178,37 +178,37 @@ public class MiniMapController : MonoBehaviour {
 		mapPanelMaskRect.gameObject.SetActive (true);
 	}
 
-	void SetCam(){
-		mapCamera.orthographicSize = camSize;
-		mapCamera.farClipPlane = camFarClip;
-		if (target == null) {
-			#if UNITY_EDITOR
-			Debug.Log ("Please assign the target");
-			#endif
-		} else {
-			mapCamera.transform.eulerAngles = rotationOfCam;
-
-			if (rotateWithTarget) {
-				mapCamera.transform.eulerAngles = target.eulerAngles + rotationOfCam;
-			}
-			mapCamera.transform.position = target.position + cameraOffset;
-		}
-	}
+    void SetCam()
+    {
+        mapCamera.orthographicSize = camSize;
+        mapCamera.farClipPlane = camFarClip;
+        if (target == null)
+        {
+#if UNITY_EDITOR
+            Debug.Log("Please assign the target");
+#endif
+        }
+        else
+        {
+            // Only rotate the camera around the Y axis
+            Vector3 newRotation = rotationOfCam;
+            if (rotateWithTarget)
+            {
+                newRotation.y = target.eulerAngles.y + rotationOfCam.y;
+            }
+            mapCamera.transform.eulerAngles = newRotation;
+            mapCamera.transform.position = target.position + cameraOffset;
+        }
+    }
     void UpdateViewCone()
     {
         // Ensure the view cone is properly scaled and positioned
         Vector3 viewConePosition = target.position + viewConeOffset;
         viewConeInstance.transform.position = viewConePosition;
 
-        // If the minimap rotates with the target, adjust the view cone's rotation accordingly
-        if (rotateWithTarget)
-        {
-            viewConeInstance.transform.rotation = Quaternion.Euler(90, target.eulerAngles.y, 0);
-        }
-        else
-        {
-            viewConeInstance.transform.rotation = Quaternion.Euler(90, 0, 0);
-        }
+        // Only rotate the view cone around the Y axis
+        float viewConeYRotation = rotateWithTarget ? target.eulerAngles.y : 0;
+        viewConeInstance.transform.rotation = Quaternion.Euler(90, viewConeYRotation, 0);
     }
 
     void SetLayerRecursively(GameObject obj, int newLayer)
