@@ -20,6 +20,8 @@ public class CameraSwitcher : MonoBehaviour
     // Reference to the Audio Listener
     private AudioListener audioListener;
 
+    public MiniMapController miniMapController;
+
     private void Start()
     {
         // Find and add cameras with the specified tag
@@ -107,6 +109,7 @@ public class CameraSwitcher : MonoBehaviour
     {
         // Enable the camera at the specified index
         cameras[index].gameObject.SetActive(true);
+        miniMapController.target = cameras[index].gameObject.transform;
 
         // Move the Audio Listener to the active camera
         if (audioListener != null)

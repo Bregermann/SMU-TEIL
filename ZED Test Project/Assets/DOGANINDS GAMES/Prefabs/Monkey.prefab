@@ -974,6 +974,7 @@ GameObject:
   - component: {fileID: 4541499151694787511}
   - component: {fileID: 7630938068332882381}
   - component: {fileID: 3580448518696443526}
+  - component: {fileID: 8948890329775508647}
   - component: {fileID: -7292115559933582721}
   m_Layer: 0
   m_Name: Monkey
@@ -1037,6 +1038,25 @@ MonoBehaviour:
   findFloorDistance: 2
   thresholdDistCloseToFloor: 0.02
   thresholdDurationOffsetError: 1.5
+--- !u!114 &8948890329775508647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3768797957486356749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf9db670c1df4bb2843b82560ce5409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: e0561f0590eb6e84385f767634ca2fb0, type: 3}
+  size: {x: 20, y: 20}
+  rotateWithObject: 0
+  upAxis: {x: 0, y: 1, z: 0}
+  initialIconRotation: 0
+  clampIconInBorder: 1
+  clampDistance: 100
 --- !u!114 &-7292115559933582721
 MonoBehaviour:
   m_ObjectHideFlags: 0
