@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,6 +24,9 @@ public class CameraSwitcher : MonoBehaviour
 
     public MiniMapController miniMapController;
 
+
+    private UnityEngine.XR.InputDevice rightController;
+
     private void Start()
     {
         // Find and add cameras with the specified tag
@@ -43,6 +48,15 @@ public class CameraSwitcher : MonoBehaviour
 
         // Activate the first camera and move the Audio Listener
         SetActiveCamera(currentCameraIndex);
+
+        // Get the right hand controller
+        var inputDevices = new List<UnityEngine.XR.InputDevice>();
+        InputDevices.GetDevicesAtXRNode(XRNode.RightHand, inputDevices);
+        if (inputDevices.Count > 0)
+        {
+            rightController = inputDevices[0];
+        }
+
     }
 
     private void Update()
@@ -60,6 +74,23 @@ public class CameraSwitcher : MonoBehaviour
         else if (Input.GetKeyDown(prevCameraKey))
         {
             CycleToPreviousCamera();
+        }
+        // Check for VR controller input to switch cameras
+        if (rightController != null)
+        {
+            bool aButtonPressed = false;
+            bool bButtonPressed = false;
+            rightController.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out aButtonPressed);
+            rightController.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out bButtonPressed);
+
+            if (aButtonPressed)
+            {
+                CycleToPreviousCamera();
+            }
+            else if (bButtonPressed)
+            {
+                CycleToNextCamera();
+            }
         }
     }
 
