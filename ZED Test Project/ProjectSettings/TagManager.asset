@@ -10,6 +10,7 @@ TagManager:
   - head
   - RecordMe
   - SwitchableCamera
+  - Foot
   layers:
   - Default
   - TransparentFX
