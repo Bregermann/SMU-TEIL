@@ -2,11 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using SFB;  // Standalone File Browser namespace
 using sl;  // ZED SDK namespace
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using UnityEngine.UIElements;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class SVOPlayer : MonoBehaviour
 {
@@ -61,7 +62,18 @@ public class SVOPlayer : MonoBehaviour
     {
         // Open file dialog and restrict to SVO files
         var filters = new[] { new ExtensionFilter("SVO Files", "svo", "svo2") };
-        var paths = StandaloneFileBrowser.OpenFilePanel("Select an SVO File", "", filters, false);
+        //var paths = StandaloneFileBrowser.OpenFilePanel("Select an SVO File", "", filters, false);
+        string[] paths;
+#if UNITY_STANDALONE_WIN
+        paths = StandaloneFileBrowser.OpenFilePanel("Select an SVO File", "", filters, false);
+#elif UNITY_STANDALONE_OSX
+        paths = StandaloneFileBrowser.OpenFilePanel("Select an SVO File", UnityEngine.Application.dataPath, "svo", false);
+#elif UNITY_STANDALONE_LINUX
+        paths = StandaloneFileBrowser.OpenFilePanel("Select an SVO File", UnityEngine.Application.dataPath, "svo", false);
+#else
+        Debug.LogError("Unsupported platform for file dialog.");
+        return;
+#endif
 
         if (paths.Length > 0)
         {
@@ -77,7 +89,18 @@ public class SVOPlayer : MonoBehaviour
     public void OpenAudioFileDialog(int buttonindex)
     {
         var filters = new[] { new ExtensionFilter("Audio Files", "wav", "mp3", "ogg") };
-        var paths = StandaloneFileBrowser.OpenFilePanel("Select an Audio File", "", filters, false);
+        //var paths = StandaloneFileBrowser.OpenFilePanel("Select an Audio File", "", filters, false);
+        string[] paths;
+#if UNITY_STANDALONE_WIN
+        paths = StandaloneFileBrowser.OpenFilePanel("Select an Audio File", "", filters, false);
+#elif UNITY_STANDALONE_OSX
+        paths = StandaloneFileBrowser.OpenFilePanel("Select an Audio File", UnityEngine.Application.dataPath, "wav", false);
+#elif UNITY_STANDALONE_LINUX
+        paths = StandaloneFileBrowser.OpenFilePanel("Select an Audio File", UnityEngine.Application.dataPath, "wav", false);
+#else
+        Debug.LogError("Unsupported platform for file dialog.");
+        return;
+#endif
 
         if (paths.Length > 0)
         {
