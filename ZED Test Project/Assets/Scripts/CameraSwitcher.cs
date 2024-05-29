@@ -1,44 +1,36 @@
 using UnityEngine;
-using UnityEngine.XR;
-using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    // List of cameras to manage
-    private List<Camera> cameras = new List<Camera>();
+    public static CameraSwitcher Instance { get; private set; }
 
-    // Index of the currently active camera
-    private int currentCameraIndex = 0;
+    public List<Camera> stationaryCameras = new List<Camera>();
+    public List<Camera> avatarCameras = new List<Camera>();
 
-    // Keys to cycle through cameras
-    public KeyCode nextCameraKey = KeyCode.RightArrow;
-    public KeyCode prevCameraKey = KeyCode.LeftArrow;
+    private int currentStationaryIndex = 0;
+    private int currentAvatarIndex = 0;
 
-    // Tag used to find cameras
-    public string cameraTag = "SwitchableCamera"; // Default tag for switchable cameras
+    public MiniMapController minimapController;
 
-    // Reference to the Audio Listener
     private AudioListener audioListener;
 
-    public MiniMapController miniMapController;
-
-
-    private UnityEngine.XR.InputDevice rightController;
-
-    private void Start()
+    private void Awake()
     {
-        // Find and add cameras with the specified tag
-        FindAndAddCameras();
-
-        // Ensure there's at least one camera
-        if (cameras.Count == 0)
+        if (Instance != null && Instance != this)
         {
-            Debug.LogError("No cameras found with the specified tag!");
-            return;
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
         }
 
+        // Initialize stationary cameras (assuming they are tagged as "StationaryCamera")
+        stationaryCameras.AddRange(GameObject.FindGameObjectsWithTag("StationaryCamera").Select(go => go.GetComponent<Camera>()));
+        stationaryCameras.Sort((cam1, cam2) => string.Compare(cam1.name, cam2.name));
         // Find or create the Audio Listener
         audioListener = FindObjectOfType<AudioListener>();
         if (audioListener == null)
@@ -47,139 +39,113 @@ public class CameraSwitcher : MonoBehaviour
         }
 
         // Activate the first camera and move the Audio Listener
-        SetActiveCamera(currentCameraIndex);
-
-        // Get the right hand controller
-        var inputDevices = new List<UnityEngine.XR.InputDevice>();
-        InputDevices.GetDevicesAtXRNode(XRNode.RightHand, inputDevices);
-        if (inputDevices.Count > 0)
-        {
-            rightController = inputDevices[0];
-        }
-
+        SetActiveCamera(stationaryCameras[0]);
     }
 
     private void Update()
     {
-        if (cameras.Count <= 1)
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            return; // No need to switch if there's only one camera
+            SwitchToPreviousStationaryCamera();
         }
-
-        // Check for input to switch cameras
-        if (Input.GetKeyDown(nextCameraKey))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            CycleToNextCamera();
+            SwitchToNextStationaryCamera();
         }
-        else if (Input.GetKeyDown(prevCameraKey))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            CycleToPreviousCamera();
+            SwitchToNextAvatarCamera();
         }
-        // Check for VR controller input to switch cameras
-        if (rightController != null)
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            bool aButtonPressed = false;
-            bool bButtonPressed = false;
-            rightController.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out aButtonPressed);
-            rightController.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out bButtonPressed);
-
-            if (aButtonPressed)
-            {
-                CycleToPreviousCamera();
-            }
-            else if (bButtonPressed)
-            {
-                CycleToNextCamera();
-            }
+            SwitchToPreviousAvatarCamera();
         }
     }
 
-    private void CycleToNextCamera()
+    private void SwitchToPreviousStationaryCamera()
     {
-        // Find and add new cameras before switching
-        FindAndAddCameras();
+        if (stationaryCameras.Count == 0) return;
 
-        // Disable the current camera if it's not destroyed
-        if (cameras[currentCameraIndex] != null)
-        {
-            cameras[currentCameraIndex].gameObject.SetActive(false);
-        }
-
-        // Move to the next available camera
-        do
-        {
-            currentCameraIndex = (currentCameraIndex + 1) % cameras.Count;
-        } while (cameras[currentCameraIndex] == null);
-
-        // Activate the new camera and move the Audio Listener
-        SetActiveCamera(currentCameraIndex);
+        currentStationaryIndex = (currentStationaryIndex - 1 + stationaryCameras.Count) % stationaryCameras.Count;
+        SetActiveCamera(stationaryCameras[currentStationaryIndex]);
+        minimapController.target = stationaryCameras[currentStationaryIndex].transform;
     }
 
-    private void CycleToPreviousCamera()
+    private void SwitchToNextStationaryCamera()
     {
-        // Find and add new cameras before switching
-        FindAndAddCameras();
+        if (stationaryCameras.Count == 0) return;
 
-        // Disable the current camera if it's not destroyed
-        if (cameras[currentCameraIndex] != null)
-        {
-            cameras[currentCameraIndex].gameObject.SetActive(false);
-        }
-
-        // Move to the previous available camera
-        do
-        {
-            currentCameraIndex = (currentCameraIndex - 1 + cameras.Count) % cameras.Count;
-        } while (cameras[currentCameraIndex] == null);
-
-        // Activate the new camera and move the Audio Listener
-        SetActiveCamera(currentCameraIndex);
+        currentStationaryIndex = (currentStationaryIndex + 1) % stationaryCameras.Count;
+        SetActiveCamera(stationaryCameras[currentStationaryIndex]);
+        minimapController.target = stationaryCameras[currentStationaryIndex].transform;
     }
 
-    private void SetActiveCamera(int index)
+    private void SwitchToNextAvatarCamera()
     {
-        // Enable the camera at the specified index
-        cameras[index].gameObject.SetActive(true);
-        miniMapController.target = cameras[index].gameObject.transform;
+        // Initialize stationary cameras (assuming they are tagged as "AvatarCamera")
+        avatarCameras.AddRange(GameObject.FindGameObjectsWithTag("AvatarCamera").Select(go => go.GetComponent<Camera>()));
+        avatarCameras.Sort((cam1, cam2) => string.Compare(cam1.name, cam2.name));
 
+        currentAvatarIndex = (currentAvatarIndex + 1) % avatarCameras.Count;
+        SetActiveCamera(avatarCameras[currentAvatarIndex]);
+        minimapController.target = avatarCameras[currentAvatarIndex].transform;
+    }
+
+    private void SwitchToPreviousAvatarCamera()
+    {
+        // Initialize stationary cameras (assuming they are tagged as "AvatarCamera")
+        avatarCameras.AddRange(GameObject.FindGameObjectsWithTag("AvatarCamera").Select(go => go.GetComponent<Camera>()));
+        avatarCameras.Sort((cam1, cam2) => string.Compare(cam1.name, cam2.name));
+
+        currentAvatarIndex = (currentAvatarIndex - 1 + avatarCameras.Count) % avatarCameras.Count;
+        SetActiveCamera(avatarCameras[currentAvatarIndex]);
+minimapController.target = avatarCameras[currentAvatarIndex].transform;
+    }
+
+    private void SetActiveCamera(Camera cam)
+    {
+        foreach (Camera camera in stationaryCameras)
+        {
+            camera.gameObject.SetActive(camera == cam);
+        }
+        foreach (Camera camera in avatarCameras)
+        {
+            camera.gameObject.SetActive(camera == cam);
+        }
         // Move the Audio Listener to the active camera
         if (audioListener != null)
         {
-            audioListener.transform.SetParent(cameras[index].transform, false);
+            audioListener.transform.SetParent(cam.transform, false);
             audioListener.transform.localPosition = Vector3.zero;
         }
     }
 
-    private void FindAndAddCameras()
+    public List<Camera> GetAllCameras()
     {
-        // Find all cameras with the specified tag
-        Camera[] foundCameras = GameObject.FindGameObjectsWithTag(cameraTag)
-            .Select(go => go.GetComponent<Camera>())
-            .Where(cam => cam != null)
-            .OrderBy(cam => cam.name) // Sort cameras alphabetically based on name
-            .ToArray();
+        List<Camera> allCameras = new List<Camera>();
+        allCameras.AddRange(stationaryCameras);
+        allCameras.AddRange(avatarCameras);
+        return allCameras;
+    }
 
-        // Add new cameras to the list if they're not already included
-        foreach (Camera cam in foundCameras)
+    public Camera GetCurrentCamera()
+    {
+        if (stationaryCameras.Contains(Camera.main))
         {
-            if (!cameras.Contains(cam))
-            {
-                cameras.Add(cam);
-            }
+            return stationaryCameras[currentStationaryIndex];
         }
-
-        // Remove destroyed cameras from the list
-        cameras.RemoveAll(cam => cam == null);
-    }
-    // Method to get the list of cameras
-    public List<Camera> GetCameras()
-    {
-        return cameras;
+        if (avatarCameras.Contains(Camera.main))
+        {
+            return avatarCameras[currentAvatarIndex];
+        }
+        return null;
     }
 
-    // Method to get the current active camera index
-    public int GetCurrentCameraIndex()
+    public void RegisterAvatarCamera(Camera avatarCamera)
     {
-        return currentCameraIndex;
+        if (!avatarCameras.Contains(avatarCamera))
+        {
+            avatarCameras.Add(avatarCamera);
+        }
     }
 }

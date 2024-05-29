@@ -11,6 +11,9 @@ TagManager:
   - RecordMe
   - SwitchableCamera
   - Foot
+  - ViewCone
+  - AvatarCamera
+  - StationaryCamera
   layers:
   - Default
   - TransparentFX

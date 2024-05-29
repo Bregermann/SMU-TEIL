@@ -30,11 +30,15 @@ public class MiniMapComponent : MonoBehaviour {
 	[Tooltip("Set the distance from target after which the icon will not be shown. Setting it 0 will always show the icon.")]
 	public float clampDistance = 100;
 
-	MiniMapController miniMapController;
-	MiniMapEntity mme;
-	MapObject mmo;
+	private MiniMapController miniMapController;
+	public MiniMapEntity mme;
+	private MapObject mmo;
 
-	void OnEnable(){
+    public MiniMapEntity GetMiniMapEntity()
+    {
+        return mme;
+    }
+    void OnEnable(){
 		miniMapController = GameObject.Find ("CanvasMiniMap").GetComponent<MiniMapController> ();
 		mme = new MiniMapEntity ();
 		mme.icon = icon;
