@@ -14,8 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Dance Studio Build/DanceStudioSVO.unity
     guid: 8a27f0acb3a80144b851786d0e125a7a
+  - enabled: 1
+    path: Assets/Scenes/Dance Studio Build/DanceStudioSVO_VR.unity
+    guid: 6755aec89866cb74d873231622e04f12
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: fdf9d307a3dca2a478480045ff1d1fee, type: 2}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 8766b8735464b8a4eaf0e830de8f5422, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 75c36cc0169e7a44bba4c7b664a8ce28, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 70a1effb998f67b44bf11e9f5bc35ef5, type: 2}
     xr.sdk.mock-hmd.settings: {fileID: 11400000, guid: bed3d941677377f4c884ffd2359a27bb, type: 2}

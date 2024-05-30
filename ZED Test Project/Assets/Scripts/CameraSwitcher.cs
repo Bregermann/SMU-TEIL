@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using Unity.XR.CoreUtils;
 
 public class CameraSwitcher : MonoBehaviour
 {
@@ -17,8 +16,6 @@ public class CameraSwitcher : MonoBehaviour
     public MiniMapController minimapController;
 
     private AudioListener audioListener;
-
-    public XROrigin xrOrigin;
 
     private void Awake()
     {
@@ -122,11 +119,6 @@ minimapController.target = avatarCameras[currentAvatarIndex].transform;
             audioListener.transform.localPosition = Vector3.zero;
         }
 
-        // Update the XR Origin's camera to match the active camera
-        if (xrOrigin != null)
-        {
-            xrOrigin.Camera.transform.SetPositionAndRotation(cam.transform.position, cam.transform.rotation);
-        }
     }
 
     public List<Camera> GetAllCameras()
