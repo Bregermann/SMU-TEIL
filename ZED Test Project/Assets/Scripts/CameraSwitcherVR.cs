@@ -83,6 +83,33 @@ public class CameraSwitcherVR : MonoBehaviour
                 SwitchToPreviousAvatarCamera();
             }
         }
+        // Check input from the primary shoulder button (typically the left controller)
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryShoulder, OVRInput.Controller.LTouch))
+        {
+            Debug.Log("Left controller primary shoulder button pressed!");
+            SwitchToNextAvatarCamera();
+        }
+
+        // Check input from the secondary shoulder button (typically the left controller)
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryShoulder, OVRInput.Controller.LTouch))
+        {
+            Debug.Log("Left controller secondary shoulder button pressed!");
+            SwitchToPreviousAvatarCamera();
+        }
+        // Check input from the primary shoulder button (typically the right controller)
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryShoulder, OVRInput.Controller.RTouch))
+        {
+            Debug.Log("Right controller primary shoulder button pressed!");
+            SwitchToNextStationaryCamera();
+        }
+        // Check input from the secondary shoulder button (typically the right controller)
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryShoulder, OVRInput.Controller.RTouch))
+        {
+            Debug.Log("Right controller secondary shoulder button pressed!");
+            SwitchToPreviousStationaryCamera();
+        }
+
+
     }
 
     private void SwitchToPreviousStationaryCamera()
