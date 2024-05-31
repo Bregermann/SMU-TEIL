@@ -18,6 +18,10 @@ public class FloorFollower : MonoBehaviour
             instance = this;
         }
     }
+    private void Update()
+    {
+        UpdateFloorPosition();
+    }
 
     public static void RegisterFoot(Foot foot)
     {
