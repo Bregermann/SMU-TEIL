@@ -82,9 +82,14 @@ public class CameraSwitcher : MonoBehaviour
 
     private void SwitchToNextAvatarCamera()
     {
-        // Initialize stationary cameras (assuming they are tagged as "AvatarCamera")
-        avatarCameras.AddRange(GameObject.FindGameObjectsWithTag("AvatarCamera").Select(go => go.GetComponent<Camera>()));
+        // Clear the list to avoid adding duplicate cameras
+        avatarCameras.Clear();
+
+        // Initialize avatar cameras (assuming they are tagged as "AvatarCamera")
+        avatarCameras.AddRange(GameObjectFinder.FindGameObjectsWithTag("AvatarCamera").Select(go => go.GetComponent<Camera>()));
         avatarCameras.Sort((cam1, cam2) => string.Compare(cam1.name, cam2.name));
+
+        if (avatarCameras.Count == 0) return;
 
         currentAvatarIndex = (currentAvatarIndex + 1) % avatarCameras.Count;
         SetActiveCamera(avatarCameras[currentAvatarIndex]);
@@ -93,13 +98,18 @@ public class CameraSwitcher : MonoBehaviour
 
     private void SwitchToPreviousAvatarCamera()
     {
-        // Initialize stationary cameras (assuming they are tagged as "AvatarCamera")
-        avatarCameras.AddRange(GameObject.FindGameObjectsWithTag("AvatarCamera").Select(go => go.GetComponent<Camera>()));
+        // Clear the list to avoid adding duplicate cameras
+        avatarCameras.Clear();
+
+        // Initialize avatar cameras (assuming they are tagged as "AvatarCamera")
+        avatarCameras.AddRange(GameObjectFinder.FindGameObjectsWithTag("AvatarCamera").Select(go => go.GetComponent<Camera>()));
         avatarCameras.Sort((cam1, cam2) => string.Compare(cam1.name, cam2.name));
+
+        if (avatarCameras.Count == 0) return;
 
         currentAvatarIndex = (currentAvatarIndex - 1 + avatarCameras.Count) % avatarCameras.Count;
         SetActiveCamera(avatarCameras[currentAvatarIndex]);
-minimapController.target = avatarCameras[currentAvatarIndex].transform;
+        minimapController.target = avatarCameras[currentAvatarIndex].transform;
     }
 
     private void SetActiveCamera(Camera cam)
@@ -147,6 +157,28 @@ minimapController.target = avatarCameras[currentAvatarIndex].transform;
         if (!avatarCameras.Contains(avatarCamera))
         {
             avatarCameras.Add(avatarCamera);
+        }
+    }
+    public static class GameObjectFinder
+    {
+        public static List<GameObject> FindGameObjectsWithTag(string tag)
+        {
+            List<GameObject> taggedObjects = new List<GameObject>();
+            GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+            foreach (GameObject obj in allObjects)
+            {
+                if (obj.CompareTag(tag))
+                {
+                    // Ensure the object is part of the active scene (not an asset in the editor)
+                    if (obj.scene.isLoaded)
+                    {
+                        taggedObjects.Add(obj);
+                    }
+                }
+            }
+
+            return taggedObjects;
         }
     }
 }
