@@ -9,7 +9,7 @@ public class ClickAndDragCameraManager : MonoBehaviour
     private Vector2 previousMousePosition;
 
     // Whether the camera is currently being dragged
-    private bool isDragging = false;
+    public bool isDragging = false;
 
     // Reference to all cameras in the scene
     private Camera[] allCameras;

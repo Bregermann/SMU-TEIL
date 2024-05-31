@@ -21,6 +21,8 @@ public class SVOPlayer : MonoBehaviour
     public GameObject zedRig;
     public Material skyboxMaterial;
 
+    public ClickAndDragCameraManager clickAndDragCameraManager;
+
     void Start()
     {
         DynamicGI.UpdateEnvironment();
@@ -47,6 +49,7 @@ public class SVOPlayer : MonoBehaviour
     {
         OpenFileDialog();
         zedRig.SetActive(false);
+        clickAndDragCameraManager.isDragging = false;
     }
     void PlayScene()
     {
