@@ -17,6 +17,17 @@ public class CameraSwitcher : MonoBehaviour
 
     private AudioListener audioListener;
 
+    public GameObject camera1;
+    public GameObject camera2;
+    public GameObject camera3;
+    public GameObject camera4;
+    public GameObject camera9;
+    private bool previousActiveState1;
+    private bool previousActiveState2;
+    private bool previousActiveState3;
+    private bool previousActiveState4;
+    private bool previousActiveState9;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -41,6 +52,10 @@ public class CameraSwitcher : MonoBehaviour
         // Activate the first camera and move the Audio Listener
         SetActiveCamera(stationaryCameras[0]);
     }
+    private void Start()
+    {
+        previousActiveState1 = camera1.activeSelf;
+    }
 
     private void Update()
     {
@@ -60,6 +75,52 @@ public class CameraSwitcher : MonoBehaviour
         {
             SwitchToPreviousAvatarCamera();
         }
+        if (camera1.activeSelf != previousActiveState1)
+        {
+            previousActiveState1 = camera1.activeSelf;
+
+            if (camera1.activeSelf)
+            {
+                ChangeViewConeOffset1();
+            }
+        }
+        if (camera2.activeSelf != previousActiveState2)
+        {
+            previousActiveState2 = camera2.activeSelf;
+
+            if (camera2.activeSelf)
+            {
+                ChangeViewConeOffset2();
+            }
+        }
+        if (camera3.activeSelf != previousActiveState3)
+        {
+            previousActiveState3 = camera3.activeSelf;
+
+            if (camera3.activeSelf)
+            {
+                ChangeViewConeOffset3();
+            }
+        }
+        if (camera4.activeSelf != previousActiveState4)
+        {
+            previousActiveState4 = camera4.activeSelf;
+
+            if (camera4.activeSelf)
+            {
+                ChangeViewConeOffset4();
+            }
+        }
+        if (camera9.activeSelf != previousActiveState9)
+        {
+            previousActiveState9 = camera9.activeSelf;
+
+            if (camera9.activeSelf)
+            {
+                ChangeViewConeOffset4();
+            }
+        }
+
     }
 
     private void SwitchToPreviousStationaryCamera()
@@ -179,6 +240,58 @@ public class CameraSwitcher : MonoBehaviour
             }
 
             return taggedObjects;
+        }
+    }
+    void ChangeViewConeOffset1()
+    {
+        if (minimapController != null)
+        {
+            // Change the X and Z values of viewConeOffset
+            minimapController.viewConeOffset = new Vector3(1f, minimapController.viewConeOffset.y, 3.5f); // Example values
+            Debug.Log("viewConeOffset has been changed to: " + minimapController.viewConeOffset);
+        }
+        else
+        {
+            Debug.LogWarning("MiniMapController reference is not set.");
+        }
+    }
+    void ChangeViewConeOffset2()
+    {
+        if (minimapController != null)
+        {
+            // Change the X and Z values of viewConeOffset
+            minimapController.viewConeOffset = new Vector3(.25f, minimapController.viewConeOffset.y, 2f); // Example values
+            Debug.Log("viewConeOffset has been changed to: " + minimapController.viewConeOffset);
+        }
+        else
+        {
+            Debug.LogWarning("MiniMapController reference is not set.");
+        }
+    }
+    void ChangeViewConeOffset3()
+    {
+        if (minimapController != null)
+        {
+            // Change the X and Z values of viewConeOffset
+            minimapController.viewConeOffset = new Vector3(-2f, minimapController.viewConeOffset.y, 3.5f); // Example values
+            Debug.Log("viewConeOffset has been changed to: " + minimapController.viewConeOffset);
+        }
+        else
+        {
+            Debug.LogWarning("MiniMapController reference is not set.");
+        }
+    }
+    void ChangeViewConeOffset4()
+    {
+        if (minimapController != null)
+        {
+            // Change the X and Z values of viewConeOffset
+            minimapController.viewConeOffset = new Vector3(0f, minimapController.viewConeOffset.y, 0f); // Example values
+            Debug.Log("viewConeOffset has been changed to: " + minimapController.viewConeOffset);
+        }
+        else
+        {
+            Debug.LogWarning("MiniMapController reference is not set.");
         }
     }
 }
